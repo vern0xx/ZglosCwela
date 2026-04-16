@@ -6,62 +6,1822 @@
 <title>Zgłoś Cwela – Rekrutacja</title>
 <link rel="icon" href="https://cdn.discordapp.com/icons/1439881308053442601/fe7acfa40dfdda68b1bc98737dbef913.webp?size=1024">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-:root{
---bg:#040404;--bg2:#090909;--card:#0d0d0d;--card2:#111;--input:#080808;
---o1:#fff7ed;--o2:#fed7aa;--o3:#fdba74;--o4:#fb923c;--o5:#f97316;--o6:#ea580c;--o7:#c2410c;--o8:#9a3412;
---ac:#f97316;--acl:#fb923c;--acd:#ea580c;
---glow:rgba(249,115,22,.35);--glows:rgba(249,115,22,.55);--glowi:rgba(249,115,22,.08);
---red:#ef4444;--green:#22c55e;--yellow:#eab308;--blue:#60a5fa;--purple:#a78bfa;
---t1:#fafafa;--t2:#b0b0b0;--t3:#555;
---b:#181818;--bh:#282828;
---r1:6px;--r2:10px;--r3:14px;--r4:18px;--r5:22px;--rf:999px;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* ════════════════════════════════════════════════════
+   DESIGN SYSTEM
+   ════════════════════════════════════════════════════ */
+:root {
+  --bg: #030303;
+  --bg2: #080808;
+  --card: #0b0b0b;
+  --card2: #0f0f0f;
+  --card3: #131313;
+  --input: #070707;
+  --inputf: #0a0a0a;
+
+  --o1:#fff7ed;--o2:#fed7aa;--o3:#fdba74;--o4:#fb923c;
+  --o5:#f97316;--o6:#ea580c;--o7:#c2410c;--o8:#9a3412;--o9:#7c2d12;
+
+  --ac: #f97316;
+  --acl: #fb923c;
+  --acd: #ea580c;
+  --glow: rgba(249,115,22,.3);
+  --glows: rgba(249,115,22,.5);
+  --glowi: rgba(249,115,22,.06);
+  --glowm: rgba(249,115,22,.15);
+
+  --red: #ef4444;
+  --green: #22c55e;
+  --yellow: #eab308;
+  --blue: #60a5fa;
+  --purple: #a78bfa;
+  --pink: #f472b6;
+  --cyan: #22d3ee;
+
+  --t1: #fafafa;
+  --t2: #a8a8a8;
+  --t3: #4a4a4a;
+  --t4: #2a2a2a;
+
+  --b: #161616;
+  --b2: #1e1e1e;
+  --b3: #262626;
+
+  --r1:6px;--r2:10px;--r3:14px;--r4:18px;--r5:22px;--r6:28px;--rf:999px;
+
+  --ease: cubic-bezier(.4,0,.2,1);
+  --bounce: cubic-bezier(.68,-.55,.265,1.55);
+  --smooth: cubic-bezier(.25,.46,.45,.94);
+
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.3);
+  --shadow-md: 0 8px 24px rgba(0,0,0,.4);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,.5);
+  --shadow-glow: 0 0 40px rgba(249,115,22,.08);
+  --shadow-glow-s: 0 0 60px rgba(249,115,22,.12);
 }
-*{margin:0;padding:0;box-sizing:border-box}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--o8);border-radius:10px}
-::selection{background:rgba(249,115,22,.2);color:var(--t1)}
-html{scroll-behavior:smooth}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden}
 
-/* ══ KEYFRAMES ══ */
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
-@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-@keyframes glow{0%,100%{box-shadow:0 0 20px var(--glow)}50%{box-shadow:0 0 40px var(--glows)}}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
-@keyframes confetti{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-@keyframes typewriter{from{width:0}to{width:100%}}
-@keyframes borderGlow{0%,100%{border-color:rgba(249,115,22,.15)}50%{border-color:rgba(249,115,22,.35)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
-/* ══ BG ══ */
-.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.bg-grid{position:absolute;inset:0;width:200%;height:200%;
-background:linear-gradient(rgba(249,115,22,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,.018) 1px,transparent 1px);
-background-size:40px 40px;animation:gridScroll 35s linear infinite}
-@keyframes gridScroll{to{transform:translate(-40px,-40px)}}
-.orb{position:absolute;border-radius:50%;filter:blur(100px);animation:orbF 25s ease-in-out infinite}
-.o1{width:550px;height:550px;background:radial-gradient(circle,rgba(249,115,22,.08) 0%,transparent 70%);top:-12%;right:-8%}
-.o2{width:350px;height:350px;background:radial-gradient(circle,rgba(234,88,12,.05) 0%,transparent 70%);bottom:8%;left:-6%;animation-delay:-9s}
-.o3{width:280px;height:280px;background:radial-gradient(circle,rgba(251,146,60,.04) 0%,transparent 70%);top:42%;right:14%;animation-delay:-17s}
-@keyframes orbF{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.06)}66%{transform:translate(-20px,25px) scale(.94)}}
-.ember{position:absolute;border-radius:50%;background:var(--ac);opacity:0;box-shadow:0 0 5px var(--glow);animation:rise linear infinite}
-@keyframes rise{0%{transform:translateY(0) translateX(0) scale(1);opacity:0}7%{opacity:.7}100%{transform:translateY(-108vh) translateX(50px) scale(0);opacity:0}}
-.scanline{position:absolute;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(249,115,22,.05),transparent);animation:scan 8s linear infinite}
-@keyframes scan{0%{top:-2px}100%{top:100%}}
-.vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.45) 100%)}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--o8); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ac); }
+::selection { background: rgba(249,115,22,.18); color: var(--t1); }
 
-/* ══ PAGE LOADER ══ */
-.pl{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity .7s,visibility .7s}
-.pl.out{opacity:0;visibility:hidden;pointer-events:none}
-.pl-logo{width:72px;height:72px;position:relative;animation:scaleIn .7s cubic-bezier(.4,0,.2,1) both}
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--t1);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* ════════════════════════════════════════════════════
+   ANIMATIONS
+   ════════════════════════════════════════════════════ */
+@keyframes spin { to { transform: rotate(360deg) } }
+@keyframes spinR { to { transform: rotate(-360deg) } }
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:translateY(0) } }
+@keyframes fadeDown { from { opacity:0; transform:translateY(-20px) } to { opacity:1; transform:translateY(0) } }
+@keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+@keyframes scaleIn { from { opacity:0; transform:scale(.9) } to { opacity:1; transform:scale(1) } }
+@keyframes slideR { from { opacity:0; transform:translateX(30px) } to { opacity:1; transform:translateX(0) } }
+@keyframes slideL { from { opacity:0; transform:translateX(-30px) } to { opacity:1; transform:translateX(0) } }
+@keyframes pop { from { transform:scale(0) } to { transform:scale(1) } }
+@keyframes popBounce { 0% { transform:scale(0) } 60% { transform:scale(1.15) } 100% { transform:scale(1) } }
+@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.3 } }
+@keyframes blink { 0%,100% { opacity:1 } 50% { opacity:.15 } }
+@keyframes glow { 0%,100% { box-shadow:0 0 15px var(--glow) } 50% { box-shadow:0 0 30px var(--glows) } }
+@keyframes shimmer { 0% { background-position:-200% 0 } 100% { background-position:200% 0 } }
+@keyframes float { 0%,100% { transform:translateY(0) } 50% { transform:translateY(-8px) } }
+@keyframes floatSlow { 0%,100% { transform:translateY(0) rotate(0) } 50% { transform:translateY(-5px) rotate(1deg) } }
+@keyframes borderPulse { 0%,100% { border-color:var(--b) } 50% { border-color:rgba(249,115,22,.2) } }
+@keyframes confetti { 0% { transform:translateY(0) rotate(0);opacity:1 } 100% { transform:translateY(100vh) rotate(720deg);opacity:0 } }
+@keyframes ripple { 0% { transform:scale(0);opacity:.5 } 100% { transform:scale(4);opacity:0 } }
+@keyframes shake { 0%,100% { transform:translateX(0) } 25% { transform:translateX(-5px) } 75% { transform:translateX(5px) } }
+@keyframes typeWrite { from { width:0 } to { width:100% } }
+@keyframes checkDraw { 0% { stroke-dashoffset:100 } 100% { stroke-dashoffset:0 } }
+@keyframes countUp { from { opacity:0;transform:translateY(10px) } to { opacity:1;transform:translateY(0) } }
+@keyframes gradientShift { 0% { background-position:0% 50% } 50% { background-position:100% 50% } 100% { background-position:0% 50% } }
+@keyframes scan { 0% { top:-3px } 100% { top:100% } }
+@keyframes gridScroll { to { transform:translate(-40px,-40px) } }
+@keyframes orbDrift { 0%,100% { transform:translate(0,0) scale(1) } 33% { transform:translate(30px,-40px) scale(1.06) } 66% { transform:translate(-20px,25px) scale(.94) } }
+@keyframes rise { 0% { transform:translateY(0) translateX(0) scale(1);opacity:0 } 6% { opacity:.7 } 100% { transform:translateY(-110vh) translateX(40px) scale(0);opacity:0 } }
+@keyframes starTwinkle { 0%,100% { opacity:.3;transform:scale(.8) } 50% { opacity:1;transform:scale(1.2) } }
+
+/* ════════════════════════════════════════════════════
+   BACKGROUND SYSTEM
+   ════════════════════════════════════════════════════ */
+.bg {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+
+.bg-grid {
+  position: absolute; inset: 0; width: 200%; height: 200%;
+  background:
+    linear-gradient(rgba(249,115,22,.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(249,115,22,.015) 1px, transparent 1px);
+  background-size: 36px 36px;
+  animation: gridScroll 40s linear infinite;
+}
+
+.bg .orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(100px); animation: orbDrift 28s ease-in-out infinite;
+}
+.bg .o1 { width:500px;height:500px;background:radial-gradient(circle,rgba(249,115,22,.07) 0%,transparent 70%);top:-12%;right:-8% }
+.bg .o2 { width:320px;height:320px;background:radial-gradient(circle,rgba(234,88,12,.05) 0%,transparent 70%);bottom:8%;left:-6%;animation-delay:-10s }
+.bg .o3 { width:260px;height:260px;background:radial-gradient(circle,rgba(251,146,60,.035) 0%,transparent 70%);top:45%;right:12%;animation-delay:-18s }
+
+.bg .ember {
+  position: absolute; border-radius: 50%;
+  background: var(--ac); opacity: 0;
+  box-shadow: 0 0 4px var(--glow);
+  animation: rise linear infinite;
+}
+
+.bg .star {
+  position: absolute; border-radius: 50%;
+  background: rgba(249,115,22,.4);
+  animation: starTwinkle ease-in-out infinite;
+}
+
+.bg .scanline {
+  position: absolute; left:0; width:100%; height:2px;
+  background: linear-gradient(90deg, transparent, rgba(249,115,22,.04), transparent);
+  animation: scan 9s linear infinite;
+}
+
+.bg .vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.5) 100%);
+}
+
+.bg .noise {
+  position: absolute; inset: 0; opacity: .4;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.015'/%3E%3C/svg%3E");
+}
+
+/* ════════════════════════════════════════════════════
+   PAGE LOADER (PREMIUM)
+   ════════════════════════════════════════════════════ */
+.page-loader {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 20px;
+  transition: opacity .8s var(--ease), visibility .8s;
+}
+.page-loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.pl-logo-wrap {
+  width: 80px; height: 80px; position: relative;
+  animation: scaleIn .6s var(--ease) both;
+}
+.pl-logo-wrap img {
+  width: 100%; height: 100%; border-radius: 50%;
+  filter: drop-shadow(0 0 22px var(--glow));
+  animation: logoPulse 2.5s ease-in-out infinite;
+}
+@keyframes logoPulse {
+  0%,100% { filter:drop-shadow(0 0 22px var(--glow)); transform:scale(1) }
+  50% { filter:drop-shadow(0 0 40px var(--glows)); transform:scale(1.04) }
+}
+.pl-ring-1 {
+  position: absolute; inset: -8px;
+  border: 2px solid transparent; border-top-color: var(--ac);
+  border-radius: 50%; animation: spin .8s linear infinite;
+}
+.pl-ring-2 {
+  position: absolute; inset: -15px;
+  border: 1.5px solid transparent; border-bottom-color: rgba(249,115,22,.2); border-left-color: rgba(249,115,22,.1);
+  border-radius: 50%; animation: spinR 1.5s linear infinite;
+}
+.pl-ring-3 {
+  position: absolute; inset: -22px;
+  border: 1px solid transparent; border-right-color: rgba(249,115,22,.08);
+  border-radius: 50%; animation: spin 2.5s linear infinite;
+}
+
+.pl-title {
+  font-size: 1.5rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--o3), var(--ac), var(--o6));
+  background-size: 200% 200%; animation: gradientShift 3s ease infinite, fadeUp .5s .15s both;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.pl-subtitle {
+  font-size: .72rem; color: var(--t3);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 2px; text-transform: uppercase;
+  animation: fadeUp .5s .3s both;
+}
+
+.pl-steps {
+  display: flex; flex-direction: column; gap: 6px;
+  min-width: 220px; animation: fadeUp .5s .4s both;
+}
+.pl-step {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .7rem; color: var(--t3);
+  font-family: 'JetBrains Mono', monospace;
+  padding: 5px 10px; border-radius: var(--r1);
+  transition: all .4s var(--ease);
+}
+.pl-step i {
+  width: 16px; text-align: center; font-size: .6rem;
+  transition: all .3s var(--ease);
+}
+.pl-step.active {
+  color: var(--o3); background: rgba(249,115,22,.04);
+}
+.pl-step.active i { color: var(--ac); animation: spin .7s linear infinite; }
+.pl-step.done { color: var(--green); }
+.pl-step.done i { color: var(--green); animation: none; }
+
+.pl-progress {
+  width: 220px; animation: fadeUp .5s .5s both;
+}
+.pl-bar-track {
+  width: 100%; height: 3px; background: var(--b);
+  border-radius: 10px; overflow: hidden;
+}
+.pl-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--o7), var(--ac), var(--o4));
+  border-radius: 10px; width: 0%;
+  transition: width .4s var(--ease);
+}
+.pl-pct {
+  text-align: right; font-size: .6rem; color: var(--t3);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 3px;
+}
+
+/* ════════════════════════════════════════════════════
+   LOGIN SCREEN (PREMIUM)
+   ════════════════════════════════════════════════════ */
+.login {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  transition: opacity .7s var(--ease), visibility .7s;
+}
+.login.out { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.login-card {
+  background: var(--card);
+  border: 1px solid var(--b);
+  border-radius: var(--r6);
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 400px; width: 93%;
+  position: relative; overflow: hidden;
+  box-shadow: var(--shadow-glow-s), var(--shadow-lg);
+  animation: cardIn .8s var(--ease);
+}
+@keyframes cardIn {
+  from { opacity:0; transform:translateY(40px) scale(.94) }
+  to { opacity:1; transform:translateY(0) scale(1) }
+}
+.login-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--o7) 20%, var(--ac) 50%, var(--o4) 80%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+.login-card .card-glow {
+  position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at center, rgba(249,115,22,.03) 0%, transparent 50%);
+  pointer-events: none; animation: glowPulse 4s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100% { opacity:.4 } 50% { opacity:1 } }
+
+.login-logo {
+  width: 80px; height: 80px; margin: 0 auto 24px;
+  position: relative; z-index: 1;
+}
+.login-logo img {
+  width: 100%; height: 100%; border-radius: 50%;
+  filter: drop-shadow(0 0 24px var(--glow));
+  animation: logoPulse 3s ease-in-out infinite;
+}
+.login-logo .orbit-1 {
+  position: absolute; inset: -10px;
+  border: 1.5px solid transparent;
+  border-top-color: var(--ac); border-right-color: rgba(249,115,22,.2);
+  border-radius: 50%; animation: spin 3.5s linear infinite;
+}
+.login-logo .orbit-2 {
+  position: absolute; inset: -18px;
+  border: 1px solid transparent;
+  border-bottom-color: rgba(249,115,22,.1);
+  border-radius: 50%; animation: spinR 6s linear infinite;
+}
+.login-logo .orbit-3 {
+  position: absolute; inset: -25px;
+  border: .5px solid transparent;
+  border-left-color: rgba(249,115,22,.05);
+  border-radius: 50%; animation: spin 10s linear infinite;
+}
+
+.login-title {
+  font-size: 1.8rem; font-weight: 900; margin-bottom: 4px;
+  position: relative; z-index: 1;
+  background: linear-gradient(135deg, var(--o2), var(--o3), var(--ac), var(--o6));
+  background-size: 300% 300%;
+  animation: gradientShift 4s ease infinite;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.login-sub {
+  color: var(--t2); font-size: .82rem;
+  margin-bottom: 32px; z-index: 1; position: relative;
+  line-height: 1.6;
+}
+.login-sub strong { color: var(--o3); font-weight: 600; }
+
+.discord-login-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%);
+  color: #fff; border: none; border-radius: var(--r2);
+  font-family: 'Inter', sans-serif; font-size: .92rem; font-weight: 600;
+  cursor: pointer; transition: all .3s var(--ease);
+  position: relative; z-index: 1; overflow: hidden;
+}
+.discord-login-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+  transform: translateX(-100%); transition: transform .6s ease;
+}
+.discord-login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(88,101,242,.35);
+}
+.discord-login-btn:hover::before { transform: translateX(100%); }
+.discord-login-btn:active { transform: translateY(0); }
+.discord-login-btn i { font-size: 1.15rem; }
+
+.login-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 20px 0; z-index: 1; position: relative;
+}
+.login-divider::before, .login-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--b);
+}
+.login-divider span {
+  color: var(--t3); font-size: .62rem;
+  text-transform: uppercase; letter-spacing: 2px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.guest-login-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; padding: 12px;
+  background: transparent; color: var(--t2);
+  border: 1px solid var(--b); border-radius: var(--r2);
+  font-family: 'Inter', sans-serif; font-size: .82rem; font-weight: 500;
+  cursor: pointer; transition: all .3s var(--ease);
+  z-index: 1; position: relative;
+}
+.guest-login-btn:hover {
+  border-color: var(--ac); color: var(--ac);
+  background: var(--glowi);
+}
+
+.login-footer {
+  margin-top: 20px; font-size: .68rem; color: var(--t3);
+  z-index: 1; position: relative;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+}
+.login-footer i { color: rgba(249,115,22,.4); font-size: .6rem; }
+
+/* ════════════════════════════════════════════════════
+   AUTH LOADING SCREEN
+   ════════════════════════════════════════════════════ */
+.auth-loading {
+  position: fixed; inset: 0; z-index: 9998;
+  display: none; align-items: center; justify-content: center;
+  flex-direction: column; gap: 20px; background: var(--bg);
+}
+.auth-loading.on { display: flex; }
+
+.spinner {
+  width: 46px; height: 46px; position: relative;
+}
+.spinner .s-ring {
+  position: absolute; width: 100%; height: 100%;
+  border: 2px solid transparent; border-radius: 50%;
+}
+.spinner .s1 { border-top-color: var(--ac); animation: spin .75s linear infinite; }
+.spinner .s2 { border-right-color: var(--o4); animation: spinR 1.2s linear infinite; width:78%;height:78%;inset:11% }
+.spinner .s3 { border-bottom-color: var(--o7); animation: spin 1.8s linear infinite; width:56%;height:56%;inset:22% }
+.spinner .s4 { border-left-color: var(--o9); animation: spinR 2.5s linear infinite; width:34%;height:34%;inset:33% }
+
+.auth-text {
+  color: var(--t2); font-size: .78rem;
+  font-family: 'JetBrains Mono', monospace;
+  animation: pulse 1.3s infinite;
+}
+
+.auth-bar {
+  width: 160px; height: 2px; background: var(--b);
+  border-radius: 10px; overflow: hidden;
+}
+.auth-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--o7), var(--ac), var(--o4));
+  border-radius: 10px; width: 0%; transition: width .35s var(--ease);
+}
+
+/* ════════════════════════════════════════════════════
+   MAIN APP WRAPPER
+   ════════════════════════════════════════════════════ */
+.app { display: none; opacity: 0; transition: opacity .7s var(--ease); }
+.app.on { display: block; opacity: 1; }
+
+/* ════════════════════════════════════════════════════
+   HEADER
+   ════════════════════════════════════════════════════ */
+.site-header {
+  position: relative; z-index: 1;
+  text-align: center; padding: 44px 18px 34px;
+  border-bottom: 1px solid var(--b);
+  overflow: hidden;
+}
+.site-header .header-glow {
+  position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(249,115,22,.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+.site-header .header-logo {
+  width: 68px; height: 68px; margin: 0 auto 16px; position: relative;
+}
+.site-header .header-logo img {
+  width: 100%; height: 100%; border-radius: 50%;
+  filter: drop-shadow(0 0 14px var(--glow));
+  animation: floatSlow 6s ease-in-out infinite;
+}
+.site-header .header-logo .h-ring {
+  position: absolute; inset: -6px;
+  border: 1.5px solid transparent; border-top-color: var(--ac);
+  border-radius: 50%; animation: spin 3s linear infinite;
+}
+.site-header h1 {
+  font-size: 2rem; font-weight: 900;
+  letter-spacing: -.5px; margin-bottom: 3px;
+}
+.site-header h1 .accent {
+  background: linear-gradient(135deg, var(--o3), var(--ac));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.site-header .tagline {
+  color: var(--t2); font-size: .85rem; margin-bottom: 16px;
+}
+
+.header-badges {
+  display: flex; align-items: center; justify-content: center;
+  gap: 7px; flex-wrap: wrap;
+}
+.h-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px; background: var(--card);
+  border: 1px solid var(--b); border-radius: var(--rf);
+  font-size: .68rem; color: var(--t2); font-weight: 500;
+  transition: all .3s var(--ease);
+}
+.h-badge:hover { border-color: rgba(249,115,22,.15); }
+.h-badge.orange { border-color: rgba(249,115,22,.18); color: var(--o3); }
+.h-badge .live-dot {
+  width: 5px; height: 5px; background: var(--green);
+  border-radius: 50%; animation: blink 2s infinite;
+}
+
+/* User Bar */
+.user-bar {
+  display: none; align-items: center; justify-content: center; gap: 8px;
+  margin: 14px auto 0; padding: 6px 16px;
+  background: var(--card); border: 1px solid var(--b);
+  border-radius: var(--rf); width: fit-content;
+  animation: fadeUp .4s var(--ease);
+}
+.user-bar.on { display: flex; }
+.user-bar .u-avatar {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid var(--ac);
+}
+.user-bar .u-name { font-size: .78rem; font-weight: 600; }
+
+.u-btn {
+  padding: 3px 9px; background: transparent;
+  border: 1px solid var(--b); border-radius: var(--rf);
+  color: var(--t3); font-size: .62rem; cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all .3s var(--ease);
+  display: inline-flex; align-items: center; gap: 3px;
+}
+.u-btn:hover { border-color: var(--red); color: var(--red); }
+.u-btn.admin-btn {
+  border-color: rgba(249,115,22,.2); color: var(--o3); display: none;
+}
+.u-btn.admin-btn:hover {
+  border-color: var(--ac); color: var(--ac); background: var(--glowi);
+}
+.u-btn.admin-btn.on { display: inline-flex; }
+
+/* ════════════════════════════════════════════════════
+   PROGRESS BAR (STICKY)
+   ════════════════════════════════════════════════════ */
+.progress-bar-sticky {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(3,3,3,.95);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--b); padding: 10px 18px;
+}
+.progress-inner { max-width: 700px; margin: 0 auto; }
+.progress-top {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 4px;
+}
+.progress-section-name {
+  font-size: .7rem; color: var(--o3); font-weight: 600;
+  display: flex; align-items: center; gap: 5px;
+}
+.progress-section-name i { font-size: .6rem; }
+.progress-percent {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem; color: var(--ac); font-weight: 600;
+}
+.progress-track-bar {
+  width: 100%; height: 2px; background: var(--b);
+  border-radius: 10px; position: relative;
+}
+.progress-track-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--o8), var(--o7), var(--ac), var(--o4));
+  background-size: 300% 100%;
+  animation: gradientShift 4s ease infinite;
+  border-radius: 10px;
+  transition: width .5s var(--ease);
+  width: 0%; position: relative;
+}
+.progress-track-fill::after {
+  content: ''; position: absolute; right: -3px; top: -3px;
+  width: 8px; height: 8px; background: var(--ac); border-radius: 50%;
+  box-shadow: 0 0 14px var(--glow), 0 0 6px var(--ac);
+  animation: glow 2s ease-in-out infinite;
+}
+
+.progress-dots {
+  display: flex; justify-content: space-between; margin-top: 6px;
+}
+.p-dot {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; cursor: pointer; transition: all .2s var(--ease);
+}
+.p-dot:hover { transform: translateY(-1px); }
+.p-dot .d {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--card2); border: 1.5px solid var(--b);
+  transition: all .3s var(--ease);
+}
+.p-dot.active .d {
+  border-color: var(--ac); background: var(--ac);
+  box-shadow: 0 0 8px var(--glow);
+}
+.p-dot.done .d { border-color: var(--green); background: var(--green); }
+.p-dot .d-label {
+  font-size: .5rem; color: var(--t3); white-space: nowrap;
+}
+.p-dot.active .d-label { color: var(--o3); }
+
+/* ════════════════════════════════════════════════════
+   FORM LAYOUT
+   ════════════════════════════════════════════════════ */
+.form-container {
+  max-width: 700px; margin: 0 auto; padding: 24px 16px 90px;
+  position: relative; z-index: 1;
+}
+
+.form-section {
+  margin-bottom: 38px; opacity: 0; transform: translateY(44px);
+  transition: all .75s var(--ease);
+}
+.form-section.visible { opacity: 1; transform: translateY(0); }
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem; color: var(--ac);
+  text-transform: uppercase; letter-spacing: 3px;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 7px;
+}
+.section-label::before {
+  content: ''; width: 15px; height: 1px; background: var(--ac);
+}
+
+.section-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--b);
+}
+.section-icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--o8), var(--ac));
+  border-radius: var(--r2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 3px 14px rgba(249,115,22,.2);
+  color: var(--bg); font-size: .9rem;
+  transition: all .3s var(--ease);
+}
+.section-icon:hover { box-shadow: 0 3px 22px rgba(249,115,22,.35); transform: translateY(-1px); }
+.section-title { font-size: 1.1rem; font-weight: 700; }
+.section-desc { font-size: .7rem; color: var(--t3); margin-top: 1px; }
+
+/* Form Cards */
+.form-card {
+  background: var(--card); border: 1px solid var(--b);
+  border-radius: var(--r4); padding: 22px;
+  margin-bottom: 8px; transition: all .3s var(--ease);
+  position: relative; overflow: hidden;
+}
+.form-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(249,115,22,.06), transparent);
+  opacity: 0; transition: opacity .3s;
+}
+.form-card:hover { border-color: rgba(249,115,22,.08); }
+.form-card:hover::before { opacity: 1; }
+.form-card.scenario { border-left: 2px solid var(--ac); }
+.form-card.scenario:nth-child(even) { border-left-color: var(--o7); }
+
+/* Form Elements */
+.field-group { margin-bottom: 18px; }
+.field-group:last-child { margin-bottom: 0; }
+
+.field-label {
+  display: block; font-size: .8rem; font-weight: 600;
+  color: var(--t1); margin-bottom: 6px; line-height: 1.4;
+}
+.required-mark { color: var(--ac); margin-left: 2px; }
+.field-hint {
+  display: block; font-size: .66rem; color: var(--t3);
+  font-weight: 400; margin-top: 2px;
+}
+.q-number {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 18px; height: 18px; padding: 0 4px;
+  background: var(--ac); color: var(--bg); border-radius: 4px;
+  font-size: .56rem; font-weight: 700; margin-right: 5px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Text Inputs */
+.text-input, .textarea-input {
+  width: 100%; padding: 10px 12px;
+  background: var(--input); border: 1px solid var(--b);
+  border-radius: var(--r2); color: var(--t1);
+  font-family: 'Inter', sans-serif; font-size: .82rem;
+  transition: all .3s var(--ease); outline: none;
+}
+.text-input:focus, .textarea-input:focus {
+  border-color: var(--ac);
+  box-shadow: 0 0 0 2px rgba(249,115,22,.08), 0 0 20px rgba(249,115,22,.03);
+  background: var(--inputf);
+}
+.text-input::placeholder, .textarea-input::placeholder { color: var(--t3); }
+.textarea-input { min-height: 88px; resize: vertical; line-height: 1.7; }
+.textarea-input.sm { min-height: 58px; }
+.textarea-input.lg { min-height: 120px; }
+
+/* Options (Radio/Checkbox) */
+.options-list { display: flex; flex-direction: column; gap: 4px; }
+.options-list.horizontal { flex-direction: row; flex-wrap: wrap; }
+
+.option-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px; background: var(--input);
+  border: 1px solid var(--b); border-radius: var(--r2);
+  cursor: pointer; transition: all .3s var(--ease);
+  user-select: none;
+}
+.option-item:hover {
+  border-color: rgba(249,115,22,.18);
+  background: rgba(249,115,22,.012);
+}
+.option-item input { display: none; }
+
+.option-item .radio-indicator {
+  width: 14px; height: 14px; border: 2px solid var(--b);
+  border-radius: 50%; flex-shrink: 0;
+  transition: all .3s var(--ease); position: relative;
+}
+.option-item input:checked ~ .radio-indicator { border-color: var(--ac); }
+.option-item input:checked ~ .radio-indicator::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 6px; height: 6px; background: var(--ac);
+  border-radius: 50%; box-shadow: 0 0 5px var(--glow);
+  animation: popBounce .3s var(--ease);
+}
+
+.option-item .check-indicator {
+  width: 14px; height: 14px; border: 2px solid var(--b);
+  border-radius: 3px; flex-shrink: 0;
+  transition: all .3s var(--ease);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px;
+}
+.option-item input:checked ~ .check-indicator {
+  border-color: var(--ac); background: var(--ac); color: var(--bg);
+}
+.option-item input:checked ~ .check-indicator::after {
+  content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+  animation: popBounce .3s var(--ease);
+}
+
+.option-item .option-icon {
+  width: 14px; text-align: center; font-size: .68rem;
+  color: var(--t3); flex-shrink: 0; transition: color .3s;
+}
+.option-item input:checked ~ .option-icon { color: var(--ac); }
+
+.option-item .option-text {
+  font-size: .8rem; color: var(--t2); transition: color .3s;
+}
+.option-item input:checked ~ .option-text { color: var(--t1); }
+.option-item.selected {
+  border-color: var(--ac); background: rgba(249,115,22,.03);
+}
+
+/* Conditional Field */
+.conditional-field {
+  display: none; margin-top: 8px; padding-left: 12px;
+  border-left: 2px solid var(--ac);
+}
+.conditional-field.show { display: block; animation: slideR .3s var(--ease); }
+
+/* Scenario Cards */
+.scenario-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; background: rgba(249,115,22,.06);
+  border-radius: var(--rf); font-size: .6rem; font-weight: 600;
+  color: var(--o3); margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.scenario-title {
+  font-size: .88rem; font-weight: 700; margin-bottom: 7px;
+  display: flex; align-items: center; gap: 6px;
+}
+.scenario-title i { color: var(--ac); font-size: .7rem; }
+.scenario-quote {
+  background: rgba(0,0,0,.4);
+  border-left: 2px solid var(--ac);
+  border-radius: 0 var(--r1) var(--r1) 0;
+  padding: 9px 13px; margin-bottom: 9px;
+  font-size: .78rem; line-height: 1.7; color: var(--t2);
+}
+
+/* Range Sliders */
+.range-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.range-item { display: flex; flex-direction: column; gap: 4px; }
+.range-item label {
+  font-size: .72rem; color: var(--t2); font-weight: 500;
+  display: flex; align-items: center; gap: 4px;
+}
+.range-item label i { color: var(--t3); font-size: .58rem; }
+.range-row { display: flex; align-items: center; gap: 7px; }
+.range-input {
+  flex: 1; -webkit-appearance: none; appearance: none;
+  height: 3px; background: var(--b); border-radius: 10px; outline: none;
+}
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 14px; height: 14px;
+  border-radius: 50%; background: var(--ac); cursor: pointer;
+  box-shadow: 0 0 8px var(--glow); border: 2px solid var(--bg);
+  transition: all .2s var(--ease);
+}
+.range-input::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.range-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem; font-weight: 700; color: var(--ac);
+  min-width: 20px; text-align: right;
+}
+
+/* Info Box */
+.info-box {
+  display: flex; gap: 9px; padding: 10px 13px;
+  background: rgba(249,115,22,.03);
+  border: 1px solid rgba(249,115,22,.08);
+  border-radius: var(--r2); margin-bottom: 14px;
+}
+.info-box.warning {
+  background: rgba(234,179,8,.03);
+  border-color: rgba(234,179,8,.08);
+}
+.info-box i { color: var(--ac); font-size: .75rem; flex-shrink: 0; margin-top: 1px; }
+.info-box.warning i { color: var(--yellow); }
+.info-box p { font-size: .75rem; color: var(--t2); line-height: 1.6; }
+.info-box p strong { color: var(--t1); }
+
+/* Case Test */
+.case-box {
+  background: linear-gradient(135deg, rgba(249,115,22,.035), rgba(234,88,12,.012));
+  border: 1px solid rgba(249,115,22,.1);
+  border-radius: var(--r4); padding: 18px; margin-bottom: 14px;
+}
+.case-label {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; background: var(--ac); color: var(--bg);
+  border-radius: var(--rf); font-size: .58rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.case-message {
+  background: var(--bg); border: 1px solid var(--b);
+  border-radius: var(--r3); padding: 13px; margin-bottom: 13px;
+}
+.case-message .msg-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+}
+.case-message .msg-avatar {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, var(--o6), var(--red));
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0;
+}
+.case-message .msg-name { font-weight: 600; font-size: .8rem; }
+.case-message .msg-time {
+  font-size: .58rem; color: var(--t3);
+  font-family: 'JetBrains Mono', monospace;
+}
+.case-message .msg-body {
+  font-size: .78rem; color: var(--t2); line-height: 1.7;
+  padding-left: 36px;
+}
+
+.case-steps { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.case-step { display: flex; align-items: center; gap: 6px; }
+.case-step-num {
+  width: 22px; height: 22px; background: var(--input);
+  border: 1px solid var(--b); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem; font-weight: 700; color: var(--ac); flex-shrink: 0;
+}
+.case-step .text-input { flex: 1; }
+
+/* Consent */
+.consent-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 9px 11px; background: var(--input);
+  border: 1px solid var(--b); border-radius: var(--r2);
+  margin-bottom: 4px; cursor: pointer;
+  transition: all .3s var(--ease);
+}
+.consent-item:hover { border-color: rgba(249,115,22,.15); }
+.consent-item input { display: none; }
+.consent-item .consent-check {
+  width: 16px; height: 16px; border: 2px solid var(--b);
+  border-radius: 3px; flex-shrink: 0;
+  transition: all .3s var(--ease);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; margin-top: 1px;
+}
+.consent-item input:checked + .consent-check {
+  border-color: var(--green); background: var(--green); color: var(--bg);
+}
+.consent-item input:checked + .consent-check::after {
+  content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+  animation: popBounce .3s var(--ease);
+}
+.consent-item .consent-text {
+  font-size: .75rem; color: var(--t2); line-height: 1.5;
+}
+.consent-item .consent-text strong { color: var(--t1); }
+
+/* Divider */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--b), rgba(249,115,22,.06), var(--b), transparent);
+  margin: 36px 0;
+}
+
+/* Submit */
+.submit-area { text-align: center; padding: 24px 0; }
+.submit-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 14px 42px;
+  background: linear-gradient(135deg, var(--o7), var(--ac), var(--o4));
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+  color: var(--bg); border: none; border-radius: var(--r3);
+  font-family: 'Inter', sans-serif; font-size: .92rem; font-weight: 700;
+  cursor: pointer; transition: all .3s var(--ease);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 24px rgba(249,115,22,.2);
+}
+.submit-btn i { font-size: .8rem; }
+.submit-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+  transform: translateX(-100%); transition: transform .55s ease;
+}
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 36px rgba(249,115,22,.35);
+}
+.submit-btn:hover::before { transform: translateX(100%); }
+.submit-btn:active { transform: translateY(0); }
+.submit-note {
+  margin-top: 10px; font-size: .7rem; color: var(--t3); line-height: 1.7;
+}
+
+/* Char Counter */
+.char-counter {
+  text-align: right; font-family: 'JetBrains Mono', monospace;
+  font-size: .6rem; color: var(--t3); margin-top: 2px;
+}
+.char-counter.ok { color: var(--green); }
+.char-counter.mid { color: var(--yellow); }
+.char-counter.low { color: var(--red); }
+
+/* ════════════════════════════════════════════════════
+   ADMIN PANEL (FULL)
+   ════════════════════════════════════════════════════ */
+.admin-overlay {
+  position: fixed; inset: 0; z-index: 10001;
+  display: none; align-items: flex-start; justify-content: center;
+  padding-top: 2vh;
+  background: rgba(0,0,0,.93); backdrop-filter: blur(20px);
+  overflow-y: auto;
+}
+.admin-overlay.on { display: flex; }
+
+.admin-panel {
+  background: var(--card); border: 1px solid var(--b);
+  border-radius: var(--r6); padding: 28px;
+  max-width: 860px; width: 96%; margin-bottom: 4vh;
+  animation: scaleIn .4s var(--ease);
+  position: relative;
+}
+.admin-panel::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--o7), var(--ac), var(--o4), var(--ac), var(--o7));
+  background-size: 200% 100%; animation: shimmer 4s linear infinite;
+}
+
+.admin-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--b);
+}
+.admin-head h2 {
+  font-size: 1.05rem; font-weight: 800;
+  display: flex; align-items: center; gap: 8px;
+}
+.admin-head h2 i { color: var(--ac); }
+.admin-close {
+  width: 30px; height: 30px; background: var(--input);
+  border: 1px solid var(--b); border-radius: 7px;
+  color: var(--t3); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .3s var(--ease); font-size: .8rem;
+}
+.admin-close:hover { border-color: var(--red); color: var(--red); background: rgba(239,68,68,.05); }
+
+/* Admin Stats */
+.admin-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 18px;
+}
+.admin-stat {
+  background: var(--input); border: 1px solid var(--b);
+  border-radius: var(--r2); padding: 14px 10px; text-align: center;
+  transition: all .3s var(--ease);
+}
+.admin-stat:hover { border-color: rgba(249,115,22,.12); transform: translateY(-1px); }
+.admin-stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.4rem; font-weight: 700; color: var(--ac);
+  animation: countUp .5s var(--ease);
+}
+.admin-stat-value.green { color: var(--green); }
+.admin-stat-value.yellow { color: var(--yellow); }
+.admin-stat-value.red { color: var(--red); }
+.admin-stat-label {
+  font-size: .58rem; color: var(--t3);
+  text-transform: uppercase; letter-spacing: .8px; margin-top: 3px;
+  display: flex; align-items: center; justify-content: center; gap: 3px;
+}
+
+/* Admin Toolbar */
+.admin-toolbar {
+  display: flex; gap: 6px; margin-bottom: 14px;
+  flex-wrap: wrap; align-items: center;
+}
+.admin-search {
+  flex: 1; min-width: 150px; padding: 8px 12px 8px 30px;
+  background: var(--input); border: 1px solid var(--b);
+  border-radius: var(--r2); color: var(--t1);
+  font-family: 'Inter', sans-serif; font-size: .76rem;
+  outline: none; transition: all .3s var(--ease);
+  position: relative;
+}
+.admin-search:focus { border-color: var(--ac); box-shadow: 0 0 0 2px var(--glowi); }
+.admin-search::placeholder { color: var(--t3); }
+.admin-search-wrap {
+  position: relative; flex: 1; min-width: 150px;
+}
+.admin-search-wrap i {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  font-size: .65rem; color: var(--t3); pointer-events: none;
+}
+.admin-filter {
+  padding: 7px 12px; background: var(--input);
+  border: 1px solid var(--b); border-radius: var(--r2);
+  color: var(--t2); font-family: 'Inter', sans-serif;
+  font-size: .68rem; cursor: pointer;
+  transition: all .3s var(--ease);
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.admin-filter i { font-size: .58rem; }
+.admin-filter:hover, .admin-filter.active {
+  border-color: var(--ac); color: var(--ac); background: var(--glowi);
+}
+
+/* Admin App List */
+.admin-list { display: flex; flex-direction: column; gap: 5px; }
+.admin-count {
+  font-size: .62rem; color: var(--t3); margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.app-entry {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; background: var(--input);
+  border: 1px solid var(--b); border-radius: var(--r2);
+  transition: all .3s var(--ease);
+  animation: slideR .3s var(--ease);
+}
+.app-entry:hover { border-color: var(--b2); background: var(--card2); }
+
+.app-entry-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--o8), var(--ac));
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem; font-weight: 700; flex-shrink: 0; color: var(--bg);
+  box-shadow: 0 2px 8px rgba(249,115,22,.15);
+}
+
+.app-entry-info { flex: 1; min-width: 0; }
+.app-entry-name {
+  font-size: .82rem; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.app-entry-meta {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 2px;
+}
+.status-tag {
+  font-size: .55rem; padding: 1px 6px; border-radius: var(--rf);
+  font-weight: 600; display: inline-flex; align-items: center; gap: 2px;
+}
+.status-tag i { font-size: .48rem; }
+.status-tag.pending { background: rgba(234,179,8,.08); color: var(--yellow); border: 1px solid rgba(234,179,8,.12); }
+.status-tag.accepted { background: rgba(34,197,94,.08); color: var(--green); border: 1px solid rgba(34,197,94,.12); }
+.status-tag.rejected { background: rgba(239,68,68,.08); color: var(--red); border: 1px solid rgba(239,68,68,.12); }
+.app-entry-date { font-size: .58rem; color: var(--t3); font-family: 'JetBrains Mono', monospace; }
+
+.app-entry-actions { display: flex; gap: 4px; flex-shrink: 0; }
+.action-btn {
+  padding: 5px 8px; border-radius: 5px;
+  border: 1px solid var(--b); background: transparent;
+  cursor: pointer; font-size: .62rem;
+  font-family: 'Inter', sans-serif;
+  transition: all .3s var(--ease);
+  display: inline-flex; align-items: center; gap: 3px; color: var(--t3);
+}
+.action-btn:hover { transform: translateY(-1px); }
+.action-btn.view:hover { border-color: rgba(249,115,22,.25); color: var(--ac); background: var(--glowi); }
+.action-btn.accept:hover { border-color: rgba(34,197,94,.25); color: var(--green); background: rgba(34,197,94,.05); }
+.action-btn.reject:hover { border-color: rgba(239,68,68,.25); color: var(--red); background: rgba(239,68,68,.05); }
+.action-btn.delete:hover { border-color: rgba(239,68,68,.25); color: var(--red); background: rgba(239,68,68,.05); }
+
+.admin-empty {
+  text-align: center; padding: 44px 20px; color: var(--t3); font-size: .8rem;
+}
+.admin-empty i { font-size: 2.4rem; display: block; margin-bottom: 12px; color: var(--t4); animation: float 3s ease-in-out infinite; }
+.admin-empty span { display: block; font-size: .68rem; margin-top: 6px; color: var(--t4); }
+
+/* ════════════════════════════════════════════════════
+   VIEW MODAL (PREMIUM DETAIL VIEW)
+   ════════════════════════════════════════════════════ */
+.view-overlay {
+  position: fixed; inset: 0; z-index: 10002;
+  display: none; align-items: flex-start; justify-content: center;
+  padding-top: 2vh;
+  background: rgba(0,0,0,.95); backdrop-filter: blur(20px);
+  overflow-y: auto;
+}
+.view-overlay.on { display: flex; }
+
+.view-panel {
+  background: var(--card); border: 1px solid var(--b);
+  border-radius: var(--r6); padding: 24px;
+  max-width: 700px; width: 96%; margin-bottom: 4vh;
+  animation: scaleIn .35s var(--ease); position: relative;
+}
+.view-panel::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--ac), var(--o4));
+}
+
+.view-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--b);
+}
+.view-head h3 {
+  font-size: .95rem; font-weight: 700;
+  display: flex; align-items: center; gap: 6px;
+}
+.view-head h3 i { color: var(--ac); font-size: .8rem; }
+
+/* View User Card */
+.view-user {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px; padding: 14px;
+  background: var(--input); border: 1px solid var(--b);
+  border-radius: var(--r3);
+  animation: borderPulse 4s ease-in-out infinite;
+}
+.view-user-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--o8), var(--ac));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; font-weight: 800; color: var(--bg);
+  box-shadow: 0 3px 12px rgba(249,115,22,.2);
+  flex-shrink: 0;
+}
+.view-user-info { flex: 1; }
+.view-user-name { font-size: .92rem; font-weight: 700; }
+.view-user-meta {
+  font-size: .66rem; color: var(--t3);
+  display: flex; gap: 8px; margin-top: 2px; flex-wrap: wrap;
+}
+.view-user-meta span {
+  display: inline-flex; align-items: center; gap: 3px;
+}
+.view-user-meta i { font-size: .52rem; color: var(--ac); }
+
+/* View Fields */
+.view-field {
+  margin-bottom: 14px; padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,.02);
+}
+.view-field:last-of-type { border-bottom: none; }
+.view-field-label {
+  font-size: .58rem; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--t3);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 4px;
+  display: flex; align-items: center; gap: 4px;
+}
+.view-field-label i { color: var(--ac); font-size: .52rem; }
+.view-field-value {
+  font-size: .82rem; color: var(--t1); line-height: 1.65;
+  white-space: pre-wrap; word-break: break-word;
+}
+.view-field-value.empty { color: var(--t3); font-style: italic; }
+
+.view-steps { display: flex; flex-direction: column; gap: 4px; }
+.view-step {
+  display: flex; gap: 7px; align-items: flex-start;
+  font-size: .78rem; color: var(--t2);
+}
+.view-step-num {
+  min-width: 18px; height: 18px;
+  background: rgba(249,115,22,.1);
+  border: 1px solid rgba(249,115,22,.18);
+  border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .52rem; font-weight: 700; color: var(--ac);
+  font-family: 'JetBrains Mono', monospace; flex-shrink: 0;
+}
+
+.view-ranges {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+}
+.view-range {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 10px; background: var(--input);
+  border: 1px solid var(--b); border-radius: var(--r1);
+  font-size: .72rem;
+}
+.view-range-label {
+  color: var(--t2); display: flex; align-items: center; gap: 4px;
+}
+.view-range-label i { color: var(--t3); font-size: .58rem; }
+.view-range-value {
+  font-weight: 700; color: var(--ac);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* View Actions */
+.view-actions {
+  display: flex; gap: 6px; margin-top: 20px;
+  padding-top: 14px; border-top: 1px solid var(--b);
+}
+.view-btn {
+  flex: 1; padding: 10px; border-radius: var(--r2);
+  border: 1px solid var(--b); background: transparent;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  font-size: .76rem; font-weight: 600;
+  transition: all .3s var(--ease);
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+}
+.view-btn.accept-btn { color: var(--green); border-color: rgba(34,197,94,.2); }
+.view-btn.accept-btn:hover { background: rgba(34,197,94,.06); border-color: rgba(34,197,94,.35); }
+.view-btn.reject-btn { color: var(--red); border-color: rgba(239,68,68,.2); }
+.view-btn.reject-btn:hover { background: rgba(239,68,68,.06); border-color: rgba(239,68,68,.35); }
+.view-btn.close-btn { color: var(--t3); }
+.view-btn.close-btn:hover { color: var(--t1); border-color: var(--b2); }
+
+/* ════════════════════════════════════════════════════
+   SUCCESS MODAL
+   ════════════════════════════════════════════════════ */
+.success-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.9); backdrop-filter: blur(14px);
+}
+.success-overlay.on { display: flex; }
+
+.success-box {
+  background: var(--card); border: 1px solid var(--b);
+  border-radius: var(--r6); padding: 40px 32px;
+  text-align: center; max-width: 400px; width: 90%;
+  animation: scaleIn .4s var(--bounce); position: relative; overflow: hidden;
+}
+.success-box::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--green), var(--ac));
+}
+.success-icon {
+  font-size: 2.8rem; color: var(--green);
+  margin-bottom: 16px; display: block;
+  animation: checkIn .6s var(--bounce);
+}
+@keyframes checkIn {
+  from { transform: scale(0) rotate(-90deg); opacity: 0 }
+  to { transform: scale(1) rotate(0); opacity: 1 }
+}
+.success-box h2 {
+  font-size: 1.2rem; margin-bottom: 6px; font-weight: 800;
+  background: linear-gradient(135deg, var(--o3), var(--ac));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.success-box p {
+  color: var(--t2); font-size: .8rem; line-height: 1.7; margin-bottom: 22px;
+}
+.success-close-btn {
+  padding: 10px 28px; background: var(--ac); color: var(--bg);
+  border: none; border-radius: var(--r2);
+  font-family: 'Inter', sans-serif; font-size: .82rem;
+  font-weight: 600; cursor: pointer;
+  transition: all .3s var(--ease);
+}
+.success-close-btn:hover {
+  background: var(--acl);
+  box-shadow: 0 4px 20px var(--glow);
+  transform: translateY(-1px);
+}
+
+/* ════════════════════════════════════════════════════
+   TOAST
+   ════════════════════════════════════════════════════ */
+.toast-notification {
+  position: fixed; bottom: 20px; right: 20px; z-index: 20000;
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; background: var(--card);
+  border: 1px solid var(--b); border-radius: var(--r2);
+  font-size: .76rem; max-width: 320px;
+  box-shadow: var(--shadow-lg);
+  transform: translateX(130%); opacity: 0;
+  transition: all .4s var(--ease);
+}
+.toast-notification.show { transform: translateX(0); opacity: 1; }
+.toast-notification i { font-size: .82rem; flex-shrink: 0; }
+.toast-notification.success { border-color: rgba(34,197,94,.2); }
+.toast-notification.success i { color: var(--green); }
+.toast-notification.error { border-color: rgba(239,68,68,.2); }
+.toast-notification.error i { color: var(--red); }
+.toast-notification.info { border-color: rgba(249,115,22,.2); }
+.toast-notification.info i { color: var(--ac); }
+
+/* Confetti */
+.confetti { position: fixed; top: -10px; z-index: 20001; pointer-events: none; animation: confetti 2.5s linear forwards; }
+
+/* ════════════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════════════ */
+.site-footer {
+  text-align: center; padding: 22px 18px;
+  border-top: 1px solid var(--b); z-index: 1; position: relative;
+}
+.site-footer p { font-size: .64rem; color: var(--t3); }
+.footer-logo {
+  width: 22px; height: 22px; margin: 0 auto 6px; opacity: .2;
+}
+.footer-logo img { width: 100%; height: 100%; border-radius: 50%; }
+
+/* ════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .site-header h1 { font-size: 1.5rem; }
+  .form-card { padding: 16px; }
+  .range-grid { grid-template-columns: 1fr; }
+  .progress-dots { display: none; }
+  .options-list.horizontal { flex-direction: column; }
+  .submit-btn { width: 100%; justify-content: center; }
+  .login-card { padding: 36px 22px; }
+  .admin-stats { grid-template-columns: 1fr 1fr; }
+  .view-ranges { grid-template-columns: 1fr; }
+  .app-entry { flex-wrap: wrap; }
+  .app-entry-actions { width: 100%; justify-content: flex-end; margin-top: 4px; }
+}
+@media (max-width: 480px) {
+  .site-header { padding: 28px 12px 22px; }
+  .site-header h1 { font-size: 1.3rem; }
+  .form-container { padding: 14px 10px 60px; }
+  .section-header { flex-direction: column; text-align: center; }
+  .header-badges { flex-direction: column; align-items: center; }
+  .admin-stats { grid-template-columns: 1fr; }
+  .admin-toolbar { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<script>
+const CFG = {
+  ADMIN_IDS: ['1192911278503633006', '1457160616098791444'],
+  CLIENT_ID: '1394227602121818132',
+  WEBHOOK: 'https://discord.com/api/webhooks/1494309622062911489/UZNO4Tq1ognnf2JN6QbaHwk_l6DiFPCkcNnVov0xroQvQ5W46-r_u51Q5ScylKj6ieYf',
+  NAME: 'Zgłoś Cwela',
+  LOGO: 'https://cdn.discordapp.com/attachments/1494043635879251978/1494305520691970178/zglos_1.png?ex=69e21ff6&is=69e0ce76&hm=9e98b5d66b8d153188e44070e8c69f5c1e3922e32a5f62186d5f0ea8f1729af0&'
+};
+</script>
+
+<!-- ══ BG ══ -->
+<div class="bg">
+  <div class="bg-grid"></div>
+  <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+  <div class="scanline"></div><div class="vignette"></div><div class="noise"></div>
+  <div id="embers"></div><div id="stars"></div>
+</div>
+
+<!-- ══ PAGE LOADER ══ -->
+<div class="page-loader" id="pageLoader">
+  <div class="pl-logo-wrap">
+    <div class="pl-ring-1"></div><div class="pl-ring-2"></div><div class="pl-ring-3"></div>
+    <img id="plLogo" src="" alt="">
+  </div>
+  <div class="pl-title" id="plTitle"></div>
+  <div class="pl-subtitle">RECRUITMENT SYSTEM</div>
+  <div class="pl-steps">
+    <div class="pl-step active" id="pls1"><i class="fa-solid fa-spinner"></i> Ładowanie zasobów</div>
+    <div class="pl-step" id="pls2"><i class="fa-solid fa-circle"></i> Inicjalizacja UI</div>
+    <div class="pl-step" id="pls3"><i class="fa-solid fa-circle"></i> Sprawdzanie sesji</div>
+    <div class="pl-step" id="pls4"><i class="fa-solid fa-circle"></i> Gotowe</div>
+  </div>
+  <div class="pl-progress">
+    <div class="pl-bar-track"><div class="pl-bar-fill" id="plFill"></div></div>
+    <div class="pl-pct" id="plPct">0%</div>
+  </div>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div class="login" id="loginScreen">
+  <div class="login-card">
+    <div class="card-glow"></div>
+    <div class="login-logo">
+      <div class="orbit-1"></div><div class="orbit-2"></div><div class="orbit-3"></div>
+      <img id="loginLogo" src="" alt="">
+    </div>
+    <h2 class="login-title" id="loginTitle"></h2>
+    <p class="login-sub">Zaloguj się przez Discord aby złożyć aplikację na <strong>Helpera</strong></p>
+    <button class="discord-login-btn" onclick="loginDC()"><i class="fa-brands fa-discord"></i> Zaloguj się przez Discord</button>
+    <div class="login-divider"><span>lub</span></div>
+    <button class="guest-login-btn" onclick="loginGuest()"><i class="fa-solid fa-user-secret"></i> Kontynuuj bez logowania</button>
+    <p class="login-footer"><i class="fa-solid fa-lock"></i> Dane są bezpieczne</p>
+  </div>
+</div>
+
+<!-- ══ AUTH LOADING ══ -->
+<div class="auth-loading" id="authLoad">
+  <div class="spinner"><div class="s-ring s1"></div><div class="s-ring s2"></div><div class="s-ring s3"></div><div class="s-ring s4"></div></div>
+  <p class="auth-text" id="authTxt">Łączenie z Discord...</p>
+  <div class="auth-bar"><div class="auth-bar-fill" id="authFill"></div></div>
+</div>
+
+<!-- ══ ADMIN ══ -->
+<div class="admin-overlay" id="adminOv">
+  <div class="admin-panel">
+    <div class="admin-head"><h2><i class="fa-solid fa-crown"></i> Panel Administracyjny</h2><button class="admin-close" onclick="closeAdmin()"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="admin-stats">
+      <div class="admin-stat"><div class="admin-stat-value" id="stAll">0</div><div class="admin-stat-label"><i class="fa-solid fa-layer-group"></i> Wszystkie</div></div>
+      <div class="admin-stat"><div class="admin-stat-value yellow" id="stP">0</div><div class="admin-stat-label"><i class="fa-solid fa-hourglass-half"></i> Oczekujące</div></div>
+      <div class="admin-stat"><div class="admin-stat-value green" id="stA">0</div><div class="admin-stat-label"><i class="fa-solid fa-circle-check"></i> Przyjęte</div></div>
+      <div class="admin-stat"><div class="admin-stat-value red" id="stR">0</div><div class="admin-stat-label"><i class="fa-solid fa-circle-xmark"></i> Odrzucone</div></div>
+    </div>
+    <div class="admin-toolbar">
+      <div class="admin-search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input class="admin-search" id="adminSearch" placeholder="Szukaj po nicku..." oninput="renderAdmin()"></div>
+      <button class="admin-filter active" onclick="setFilter(this,'all')"><i class="fa-solid fa-layer-group"></i> Wszystkie</button>
+      <button class="admin-filter" onclick="setFilter(this,'pending')"><i class="fa-solid fa-hourglass-half"></i> Oczekujące</button>
+      <button class="admin-filter" onclick="setFilter(this,'accepted')"><i class="fa-solid fa-circle-check"></i> Przyjęte</button>
+      <button class="admin-filter" onclick="setFilter(this,'rejected')"><i class="fa-solid fa-circle-xmark"></i> Odrzucone</button>
+    </div>
+    <div class="admin-count" id="adminCount"></div>
+    <div class="admin-list" id="adminList"></div>
+  </div>
+</div>
+
+<!-- ══ VIEW ══ -->
+<div class="view-overlay" id="viewOv"><div class="view-panel"><div class="view-head"><h3><i class="fa-solid fa-file-lines"></i> Szczegóły aplikacji</h3><button class="admin-close" onclick="closeView()"><i class="fa-solid fa-xmark"></i></button></div><div id="viewContent"></div></div></div>
+
+<!-- ══ APP ══ -->
+<div class="app" id="mainApp">
+
+<header class="site-header">
+  <div class="header-glow"></div>
+  <div class="header-logo"><div class="h-ring"></div><img id="headerLogo" src="" alt=""></div>
+  <h1>Rekrutacja na <span class="accent">Helpera</span></h1>
+  <p class="tagline">Dołącz do zespołu ochrony społeczności</p>
+  <div class="header-badges">
+    <span class="h-badge"><span class="live-dot"></span> Rekrutacja otwarta</span>
+    <span class="h-badge orange"><i class="fa-solid fa-shield-halved" style="font-size:.55rem"></i> <span id="badgeName"></span></span>
+    <span class="h-badge"><i class="fa-regular fa-clock" style="font-size:.55rem"></i> ~10 min</span>
+  </div>
+  <div class="user-bar" id="userBar">
+    <img class="u-avatar" id="uAvatar" src="" alt="">
+    <span class="u-name" id="uName"></span>
+    <button class="u-btn admin-btn" id="adminBtn" onclick="openAdmin()"><i class="fa-solid fa-crown"></i> Admin</button>
+    <button class="u-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+  </div>
+</header>
+
+<div class="progress-bar-sticky"><div class="progress-inner">
+  <div class="progress-top">
+    <span class="progress-section-name" id="curSection"><i class="fa-solid fa-id-card"></i> Dane podstawowe</span>
+    <span class="progress-percent" id="progPercent">0%</span>
+  </div>
+  <div class="progress-track-bar"><div class="progress-track-fill" id="progFill"></div></div>
+  <div class="progress-dots">
+    <div class="p-dot active" data-s="1"><div class="d"></div><span class="d-label">Dane</span></div>
+    <div class="p-dot" data-s="2"><div class="d"></div><span class="d-label">Doświad.</span></div>
+    <div class="p-dot" data-s="3"><div class="d"></div><span class="d-label">Motywacja</span></div>
+    <div class="p-dot" data-s="4"><div class="d"></div><span class="d-label">Scenariusze</span></div>
+    <div class="p-dot" data-s="5"><div class="d"></div><span class="d-label">Wiedza</span></div>
+    <div class="p-dot" data-s="6"><div class="d"></div><span class="d-label">Cechy</span></div>
+    <div class="p-dot" data-s="7"><div class="d"></div><span class="d-label">Test</span></div>
+    <div class="p-dot" data-s="8"><div class="d"></div><span class="d-label">Zgody</span></div>
+  </div>
+</div></div>
+
+<form id="mainForm" class="form-container">
+
+<!-- S1: DANE -->
+<div class="form-section" data-s="1"><div class="section-label">Sekcja 01</div><div class="section-header"><div class="section-icon"><i class="fa-solid fa-id-card"></i></div><div><div class="section-title">Dane podstawowe</div><div class="section-desc">Kim jesteś</div></div></div>
+<div class="form-card">
+  <div class="field-group"><label class="field-label"><span class="q-number">1</span>Nick Discord<span class="required-mark">*</span></label><input class="text-input" type="text" name="nick" placeholder="@TwójNick" required id="nickField"></div>
+  <div class="field-group"><label class="field-label"><span class="q-number">2</span>Wiek<span class="required-mark">*</span></label><input class="text-input" type="number" name="age" min="13" max="99" placeholder="np. 17" required></div>
+  <div class="field-group"><label class="field-label"><span class="q-number">3</span>Czas dzienny na serwerze<span class="required-mark">*</span></label><div class="options-list">
+    <label class="option-item"><input type="radio" name="time" value="<1h" required><span class="radio-indicator"></span><i class="fa-regular fa-clock option-icon"></i><span class="option-text">Mniej niż 1 godzina</span></label>
+    <label class="option-item"><input type="radio" name="time" value="1-2h"><span class="radio-indicator"></span><i class="fa-regular fa-clock option-icon"></i><span class="option-text">1-2 godziny</span></label>
+    <label class="option-item"><input type="radio" name="time" value="2-4h"><span class="radio-indicator"></span><i class="fa-regular fa-clock option-icon"></i><span class="option-text">2-4 godziny</span></label>
+    <label class="option-item"><input type="radio" name="time" value="4h+"><span class="radio-indicator"></span><i class="fa-regular fa-clock option-icon"></i><span class="option-text">4+ godzin</span></label>
+  </div></div>
+  <div class="field-group"><label class="field-label"><span class="q-number">4</span>Pory aktywności<span class="required-mark">*</span><span class="field-hint">Zaznacz wszystkie pasujące</span></label><div class="options-list">
+    <label class="option-item"><input type="checkbox" name="hrs" value="rano"><span class="check-indicator"></span><i class="fa-solid fa-sun option-icon"></i><span class="option-text">Rano (6:00–12:00)</span></label>
+    <label class="option-item"><input type="checkbox" name="hrs" value="popołudnie"><span class="check-indicator"></span><i class="fa-solid fa-cloud-sun option-icon"></i><span class="option-text">Popołudnie (12:00–18:00)</span></label>
+    <label class="option-item"><input type="checkbox" name="hrs" value="wieczór"><span class="check-indicator"></span><i class="fa-solid fa-moon option-icon"></i><span class="option-text">Wieczór (18:00–23:00)</span></label>
+    <label class="option-item"><input type="checkbox" name="hrs" value="noc"><span class="check-indicator"></span><i class="fa-solid fa-star option-icon"></i><span class="option-text">Noc (23:00–6:00)</span></label>
+  </div></div>
+</div></div>
+<div class="section-divider"></div>
+
+<!-- S2: DOŚWIADCZENIE -->
+<div class="form-section" data-s="2"><div class="section-label">Sekcja 02</div><div class="section-header"><div class="section-icon"><i class="fa-solid fa-medal"></i></div><div><div class="section-title">Doświadczenie</div><div class="section-desc">Twoja historia moderacji</div></div></div>
+<div class="form-card">
+  <div class="field-group"><label class="field-label"><span class="q-number">5</span>Masz doświadczenie jako helper/moderator?<span class="required-mark">*</span></label><div class="options-list">
+    <label class="option-item"><input type="radio" name="exp" value="tak" required onchange="toggleCond('expCond',true)"><span class="radio-indicator"></span><i class="fa-solid fa-check option-icon" style="color:var(--green)"></i><span class="option-text">Tak, mam doświadczenie</span></label>
+    <label class="option-item"><input type="radio" name="exp" value="nie" onchange="toggleCond('expCond',false)"><span class="radio-indicator"></span><i class="fa-solid fa-xmark option-icon" style="color:var(--red)"></i><span class="option-text">Nie, to mój pierwszy raz</span></label>
+  </div><div class="conditional-field" id="expCond"><label class="field-label" style="margin-top:6px"><i class="fa-solid fa-pen-to-square" style="color:var(--ac);margin-right:4px"></i>Opisz doświadczenie:<span class="field-hint">Nazwy serwerów, role, jak długo, ilu członków</span></label><textarea class="textarea-input lg" name="exp_det" placeholder="np. Moderator na serwerze 'GamePL' (3000 członków) przez 8 miesięcy..."></textarea></div></div>
+  <div class="field-group"><label class="field-label"><span class="q-number">6</span>Znane boty moderacyjne<span class="field-hint">Zaznacz te, z których korzystałeś</span></label><div class="options-list horizontal">
+    <label class="option-item"><input type="checkbox" name="bots" value="mee6"><span class="check-indicator"></span><span class="option-text">MEE6</span></label>
+    <label class="option-item"><input type="checkbox" name="bots" value="dyno"><span class="check-indicator"></span><span class="option-text">Dyno</span></label>
+    <label class="option-item"><input type="checkbox" name="bots" value="carl"><span class="check-indicator"></span><span class="option-text">Carl-bot</span></label>
+    <label class="option-item"><input type="checkbox" name="bots" value="wick"><span class="check-indicator"></span><span class="option-text">Wick</span></label>
+    <label class="option-item"><input type="checkbox" name="bots" value="automod"><span class="check-indicator"></span><span class="option-text">AutoMod</span></label>
+    <label class="option-item"><input type="checkbox" name="bots" value="ticket"><span class="check-indicator"></span><span class="option-text">Ticket Tool</span></label>
+  </div></div>
+</div></div>
+<div class="section-divider"></div>
+
+<!-- S3: MOTYWACJA -->
+<div class="form-section" data-s="3"><div class="section-label">Sekcja 03</div><div class="section-header"><div class="section-icon"><i class="fa-solid fa-lightbulb"></i></div><div><div class="section-title">Motywacja</div><div class="section-desc">Dlaczego chcesz dołączyć do zespołu</div></div></div>
+<div class="form-card">
+  <div class="field-group"><label class="field-label"><span class="q-number">7</span>Dlaczego chcesz zostać helperem?<span class="required-mark">*</span><span class="field-hint">Minimum 80 znaków — pisz szczerze i od siebie</span></label><textarea class="textarea-input lg" name="why" placeholder="Chcę zostać helperem, ponieważ..." required minlength="80" oninput="updateCharCount(this,'cc1')"></textarea><div class="char-counter low" id="cc1">0 / 80 min. znaków</div></div>
+  <div class="field-group"><label class="field-label"><span class="q-number">8</span>Jak rozumiesz rolę helpera?<span class="required-mark">*</span><span class="field-hint">Czym się zajmuje helper? Czym różni się od moderatora?</span></label><textarea class="textarea-input" name="role" placeholder="Helper zajmuje się..." required></textarea></div>
+</div></div>
+<div class="section-divider"></div>
+
+<!-- S4: SCENARIUSZE -->
+<div class="form-section" data-s="4"><div class="section-label">Sekcja 04</div><div class="section-header"><div class="section-icon"><i class="fa-solid fa-sitemap"></i></div><div><div class="section-title">Scenariusze sytuacyjne</div><div class="section-desc">Jak zachowujesz się w trudnych sytuacjach</div></div></div>
+<div class="info-box"><i class="fa-solid fa-circle-info"></i><p>Opisuj <strong>szczegółowo krok po kroku</strong>. Nie ma złych odpowiedzi — zależy nam na Twoim toku myślenia.</p></div>
+<div class="form-card scenario"><div class="scenario-tag"><i class="fa-solid fa-thumbtack"></i> SYTUACJA 1</div><div class="scenario-title"><i class="fa-solid fa-file-circle-question"></i> Zgłoszenie bez dowodów</div><div class="scenario-quote">Użytkownik pisze: <em>"Zostałem scamnięty przez @JanekXD, zabrał mi 100zł za skina!"</em> — ale nie załączył żadnych screenów ani potwierdzeń.</div><textarea class="textarea-input" name="s1" placeholder="Krok 1: Odpisuję użytkownikowi i...  Krok 2: ..." required></textarea></div>
+<div class="form-card scenario"><div class="scenario-tag"><i class="fa-solid fa-thumbtack"></i> SYTUACJA 2</div><div class="scenario-title"><i class="fa-solid fa-fire"></i> Drama i wyzwiska</div><div class="scenario-quote">Na kanale #ogólny wybucha kłótnia. Dwóch użytkowników wzajemnie się obraża wulgaryzmami, inni przyłączają się do konfliktu.</div><textarea class="textarea-input" name="s2" placeholder="Krok 1: ..." required></textarea></div>
+<div class="form-card scenario"><div class="scenario-tag"><i class="fa-solid fa-triangle-exclamation"></i> SYTUACJA 3</div><div class="scenario-title"><i class="fa-solid fa-user-shield"></i> Znajomy oskarżony o scam</div><div class="scenario-quote">Twój dobry znajomy (grasz z nim codziennie) zostaje zgłoszony o scam. Zgłaszający ma screeny rozmów i potwierdzenie przelewu.</div><textarea class="textarea-input" name="s3" placeholder="Krok 1: ..." required></textarea></div>
+<div class="form-card scenario"><div class="scenario-tag"><i class="fa-solid fa-skull-crossbones"></i> SYTUACJA 4</div><div class="scenario-title"><i class="fa-solid fa-comment-slash"></i> Groźby w DM</div><div class="scenario-quote">Zbanowany scammer pisze Ci na DM: <em>"Jeśli nie zdejmiesz mi bana, zrobię raid na serwer i ujawnię Twój adres"</em>.</div><textarea class="textarea-input" name="s4" placeholder="Krok 1: ..." required></textarea></div>
+</div>
+<div class="section-divider"></div>
+
+<!-- S5: WIEDZA -->
+<div class="form-section" data-s="5"><div class="section-label">Sekcja 05</div><div class="section-header"><div class="section-icon"><i class="fa-solid fa-graduation-cap"></i></div><div><div class="section-title">Wiedza</div><div class="section-desc">Co wiesz o scamach i bezpieczeństwie</div></div></div>
+<div class="form-card">
+  <div class="field-group"><label class="field-label"><span class="q-number">9</span>Co to jest scam? Podaj definicję.<span class="required-mark">*</span></label><textarea class="textarea-input sm" name="def" placeholder="Scam to..." required></textarea></div>
+  <div class="field-group"><label class="field-label"><span class="q-number">10</span>Wymień minimum 3 rodzaje scamów:<span class="required-mark">*</span></label>
+    <input class="text-input" type="text" name="st1" placeholder="1. np. Fake giveaway / fałszywy konkurs" style="margin-bottom:4px" required>
+    <input class="text-input" type="text" name="st2" placeholder="2. np. Phishing / kradzież danych logowania" style="margin-bottom:4px" required>
+    <input class="text-input" type="text" name="st3" placeholder="3. np. Sprzedaż nieistniejących kont/skinów" required>
+  </div>
+  <div class="field-group"><label class="field-label"><span class="q-number">11</span>Jakie dowody są wymagane przy zgłoszeniu scamu?<span class="required-mark">*</span></label><textarea class="textarea-input sm" name="evidence" placeholder="Wymagane dowody to..." required></textarea></div>
+</div></div>
+<div class="section-divider"></div>
+
+<!-- S6: CECHY -->
+<div class="form-section" data-s="6"><div class="section-label">Sekcja 06</div><div class="section-header"><div class="section-icon"><i class="fa-solid fa-brain"></i></div><div><div class="section-title">Cechy osobiste</div><div class="section-desc">Kim jesteś jako człowiek</div></div></div>
+<div class="form-card">
+  <div class="field-group"><label class="field-label"><span class="q-number">12</span>Jak radzisz sobie ze stresem i presją?<span class="required-mark">*</span><span class="field-hint">Opisz konkretną sytuację z życia</span></label><textarea class="textarea-input sm" name="stress" placeholder="W stresujących sytuacjach zazwyczaj..." required></textarea></div>
+  <div class="field-group"><label class="field-label"><span class="q-number">13</span>Twoja największa wada jako helper?<span class="required-mark">*</span><span class="field-hint">Szczerość jest ważniejsza niż idealna odpowiedź</span></label><textarea class="textarea-input sm" name="flaw" placeholder="Moją wadą jest..." required></textarea></div>
+  <div class="field-group"><label class="field-label"><span class="q-number">14</span>Oceń siebie w skali 1–10:<span class="required-mark">*</span></label><div class="range-grid">
+    <div class="range-item"><label><i class="fa-solid fa-hourglass-half"></i> Cierpliwość</label><div class="range-row"><input class="range-input" type="range" name="r1" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value"><span class="range-value">5</span></div></div>
+    <div class="range-item"><label><i class="fa-solid fa-comments"></i> Komunikatywność</label><div class="range-row"><input class="range-input" type="range" name="r2" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value"><span class="range-value">5</span></div></div>
+    <div class="range-item"><label><i class="fa-solid fa-shield-halved"></i> Odporność na stres</label><div class="range-row"><input class="range-input" type="range" name="r3" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value"><span class="range-value">5</span></div></div>
+    <div class="range-item"><label><i class="fa-solid fa-scale-balanced"></i> Obiektywność</label><div class="range-row"><input class="range-input" type="range" name="r4" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value"><span class="range-value">5</span></div></div>
+  </div></div>
+</div></div>
+<div class="section-divider"></div>
+
+<!-- S7: TEST -->
+<div class="form-section" data-s="7"><div class="section-label">Sekcja 07</div><div class="section-header"><div class="section-icon"><i class="fa-solid fa-flask-vial"></i></div><div><div class="section-title">Test praktyczny</div><div class="section-desc">Obsługa realnego zgłoszenia krok po kroku</div></div></div>
+<div class="info-box warning"><i class="fa-solid fa-triangle-exclamation"></i><p><strong>Najważniejsza sekcja formularza.</strong> Opisz dokładnie każdy krok od otrzymania zgłoszenia do zamknięcia sprawy. Im więcej szczegółów, tym lepiej.</p></div>
+<div class="case-box">
+  <div class="case-label"><i class="fa-solid fa-file-invoice"></i> CASE TEST</div>
+  <div class="case-message"><div class="msg-header"><div class="msg-avatar">M</div><div><div class="msg-name">MateuszTrader</div><div class="msg-time">Dzisiaj o 18:42</div></div></div><div class="msg-body">Hej, kupiłem od <strong>@DarkSeller</strong> konto do Fortnite za <strong>150 zł</strong>. Przelałem mu pieniądze przez BLIK, a on mnie zablokował i nie dostałem danych do konta. Mam screenshoty rozmów i potwierdzenie przelewu z banku.</div></div>
+  <label class="field-label" style="margin-bottom:8px"><i class="fa-solid fa-list-ol" style="color:var(--ac);margin-right:5px"></i>Opisz KROK PO KROKU co robisz:<span class="required-mark">*</span></label>
+  <div class="case-steps">
+    <div class="case-step"><span class="case-step-num">1</span><input class="text-input" type="text" name="c1" placeholder="Przyjmuję zgłoszenie i odpowiadam..." required></div>
+    <div class="case-step"><span class="case-step-num">2</span><input class="text-input" type="text" name="c2" placeholder="Proszę o przesłanie..."></div>
+    <div class="case-step"><span class="case-step-num">3</span><input class="text-input" type="text" name="c3" placeholder="Weryfikuję..."></div>
+    <div class="case-step"><span class="case-step-num">4</span><input class="text-input" type="text" name="c4" placeholder="Sprawdzam historię..."></div>
+    <div class="case-step"><span class="case-step-num">5</span><input class="text-input" type="text" name="c5" placeholder="Konsultuję z..."></div>
+    <div class="case-step"><span class="case-step-num">6</span><input class="text-input" type="text" name="c6" placeholder="Podejmuję decyzję i..."></div>
+  </div>
+</div></div>
+<div class="section-divider"></div>
+
+<!-- S8: ZGODY -->
+<div class="form-section" data-s="8"><div class="section-label">Sekcja 08</div><div class="section-header"><div class="section-icon"><i class="fa-solid fa-file-signature"></i></div><div><div class="section-title">Regulamin i zgody</div><div class="section-desc">Potwierdź poniższe oświadczenia</div></div></div>
+<div class="form-card">
+  <label class="consent-item"><input type="checkbox" name="c1c" required><span class="consent-check"></span><span class="consent-text">Zapoznałem/am się z <strong>regulaminem serwera</strong> i zobowiązuję się go przestrzegać<span class="required-mark">*</span></span></label>
+  <label class="consent-item"><input type="checkbox" name="c2c" required><span class="consent-check"></span><span class="consent-text">Rozumiem, że rola helpera jest <strong>dobrowolna i nieodpłatna</strong><span class="required-mark">*</span></span></label>
+  <label class="consent-item"><input type="checkbox" name="c3c" required><span class="consent-check"></span><span class="consent-text">Zgadzam się na <strong>okres próbny 7–14 dni</strong><span class="required-mark">*</span></span></label>
+  <label class="consent-item"><input type="checkbox" name="c4c" required><span class="consent-check"></span><span class="consent-text">Wyrażam zgodę na <strong>kontakt przez DM</strong><span class="required-mark">*</span></span></label>
+  <label class="consent-item"><input type="checkbox" name="c5c" required><span class="consent-check"></span><span class="consent-text">Złamanie zasad może skutkować <strong>natychmiastowym odebraniem roli</strong><span class="required-mark">*</span></span></label>
+  <div class="field-group" style="margin-top:14px"><label class="field-label"><i class="fa-solid fa-message" style="color:var(--ac);margin-right:4px"></i>Dodatkowe uwagi<span class="field-hint">Opcjonalne — pytania, uwagi, dodatkowe informacje</span></label><textarea class="textarea-input sm" name="extra" placeholder="Cokolwiek chcesz dodać..."></textarea></div>
+</div></div>
+
+<div class="submit-area">
+  <button type="submit" class="submit-btn"><i class="fa-solid fa-paper-plane"></i> Wyślij aplikację</button>
+  <p class="submit-note">Odpowiedź otrzymasz w ciągu <strong>48 godzin</strong> na DM Discord.<br>Nie pisz do administracji z pytaniem o status.</p>
+</div>
+</form>
+
+<footer class="site-footer"><div class="footer-logo"><img id="footerLogo" src="" alt=""></div><p>© 2025 <span id="footerName"></span> — Wszelkie prawa zastrzeżone</p></footer>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="success-overlay" id="successModal"><div class="success-box"><i class="fa-solid fa-circle-check success-icon"></i><h2>Aplikacja wysłana!</h2><p>Dziękujemy za zgłoszenie! Twoja aplikacja trafiła do zespołu.<br>Odpowiedź na DM w ciągu <strong>48 godzin</strong>.<br><br>Trzymamy kciuki!</p><button class="success-close-btn" onclick="closeSuccess()">Zamknij</button></div></div>
+
+<!-- TOAST -->
+<div class="toast-notification" id="toastEl"><i id="toastIcon"></i><span id="toastText"></span></div>
+
+<!-- ════════════════════════════════════════════════════
+   JAVASCRIPT ENGINE
+   ════════════════════════════════════════════════════ -->
+<script>
+const $=id=>document.getElementById(id);
+const C=CFG;
+
+// ══ INIT ══
+['plLogo','loginLogo','headerLogo','footerLogo'].forEach(id=>$(id).src=C.LOGO);
+$('plTitle').textContent=$('loginTitle').textContent=$('badgeName').textContent=$('footerName').textContent=C.NAME;
+document.title=C.NAME+' – Rekrutacja na Helpera';
+
+// ══ BG PARTICLES ══
+(function(){
+  const ec=$('embers');
+  for(let i=0;i<25;i++){const e=document.createElement('div');e.className='ember';const s=Math.random()*2+.4;e.style.cssText=`left:${Math.random()*100}%;bottom:-8px;width:${s}px;height:${s}px;animation-duration:${Math.random()*18+10}s;animation-delay:${Math.random()*18}s`;ec.appendChild(e)}
+  const sc=$('stars');
+  for(let i=0;i<15;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*1.5+.5;s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;animation-duration:${Math.random()*4+2}s;animation-delay:${Math.random()*4}s`;sc.appendChild(s)}
+})();
+
+// ══ TOAST ══
+function toast(msg,type='info',dur=3500){const el=$('toastEl'),ic=$('toastIcon'),tx=$('toastText');el.className='toast-notification '+type;ic.className='fa-solid '+{success:'fa-circle-check',error:'fa-circle-xmark',info:'fa-circle-info'}[type];tx.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),dur)}
+
+// ══ CONFETTI ══
+function fireConfetti(){const colors=['#f97316','#fb923c','#22c55e','#60a5fa','#a78bfa','#eab308','#ef4444','#fdba74','#f472b6','#22d3ee'];for(let i=0;i<80;i++){const p=document.createElement('div');p.className='confetti';const sz=Math.random()*7+3;p.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${Math.random()*1.5+1.5}s;animation-delay:${Math.random()*.6}s`;document.body.appendChild(p);setTimeout(()=>p.remove(),3500)}}
+
+// ══ PAGE LOADER ══
+(function(){const fill=$('plFill'),pct=$('plPct');let p=0;const steps=[{id:'pls1',at:20},{id:'pls2',at:45},{id:'pls3',at:75},{id:'pls4',at:100}];
+const iv=setInterval(()=>{p+=Math.random()*10+3;if(p>=100){p=100;clearInterval(iv)}fill.style.width=p+'%';pct.textContent=Math.round(p)+'%';
+steps.forEach((s,i)=>{const el=$(s.id);if(p>=s.at&&!el.classList.contains('done')){el.classList.remove('active');el.classList.add('done');el.querySelector('i').className='fa-solid fa-circle-check';if(steps[i+1]){const nx=$(steps[i+1].id);if(!nx.classList.contains('done')){nx.classList.add('active');nx.querySelector('i').className='fa-solid fa-spinner'}}}});
+if(p>=100)setTimeout(()=>$('pageLoader').classList.add('out'),600)},140)})();
+
+// ══ STORAGE ══
+let apps=JSON.parse(localStorage.getItem('zc_apps')||'[]');
+let currentUser=null;let adminFilter='all';
+const saveApps=()=>localStorage.setItem('zc_apps',JSON.stringify(apps));
+
+// ══ AUTH ══
+const REDIR=encodeURIComponent(location.origin+location.pathname);
+const AUTH_URL=`https://discord.com/api/oauth2/authorize?client_id=${C.CLIENT_ID}&redirect_uri=${REDIR}&response_type=token&scope=identify`;
+
+function loginDC(){location.href=AUTH_URL}
+function loginGuest(){showAuth('Przygotowywanie formularza...');setTimeout(()=>authBar(50),400);setTimeout(()=>{authBar(100);initApp(null)},1200)}
+function showAuth(t){$('loginScreen').classList.add('out');$('authLoad').classList.add('on');$('authTxt').textContent=t}
+function authBar(p){$('authFill').style.width=p+'%'}
+
+function initApp(user){
+  currentUser=user;$('authLoad').classList.remove('on');
+  const app=$('mainApp');app.style.display='block';requestAnimationFrame(()=>app.classList.add('on'));
+  if(user){$('userBar').classList.add('on');$('uName').textContent=user.global_name||user.username;
+    $('uAvatar').src=user.avatar?`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`:`https://cdn.discordapp.com/embed/avatars/${(parseInt(user.discriminator||0))%5}.png`;
+    $('nickField').value='@'+user.username;
+    if(C.ADMIN_IDS.includes(user.id)){$('adminBtn').classList.add('on');toast('Zalogowano jako administrator','info',4000)}
+    else toast('Witaj, '+(user.global_name||user.username)+'!','success')}
+  observeSections()}
+function logout(){location.reload()}
+
+// OAuth callback
+(function(){const h=location.hash;if(h&&h.includes('access_token')){const p=new URLSearchParams(h.substring(1)),tok=p.get('access_token');if(tok){history.replaceState(null,'',location.pathname);showAuth('Weryfikacja tożsamości...');$('loginScreen').classList.add('out');setTimeout(()=>authBar(40),300);
+fetch('https://discord.com/api/users/@me',{headers:{Authorization:'Bearer '+tok}}).then(r=>r.json()).then(u=>{authBar(80);setTimeout(()=>{authBar(100);initApp(u)},500)}).catch(()=>{authBar(100);initApp(null);toast('Błąd autoryzacji Discord','error')})}}})();
+
+// ══ ADMIN PANEL ══
+function openAdmin(){$('adminOv').classList.add('on');renderAdmin()}
+function closeAdmin(){$('adminOv').classList.remove('on')}
+function setFilter(btn,f){adminFilter=f;document.querySelectorAll('.admin-filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderAdmin()}
+
+function renderAdmin(){
+  const q=($('adminSearch').value||'').toLowerCase();
+  const filtered=apps.filter(a=>(adminFilter==='all'||a.status===adminFilter)&&(!q||(a.nick||'').toLowerCase().includes(q)));
+  $('stAll').textContent=apps.length;$('stP').textContent=apps.filter(a=>a.status==='pending').length;
+  $('stA').textContent=apps.filter(a=>a.status==='accepted').length;$('stR').textContent=apps.filter(a=>a.status==='rejected').length;
+  $('adminCount').textContent=`Wyświetlono ${filtered.length} z ${apps.length} aplikacji`;
+  const list=$('adminList');
+  if(!filtered.length){list.innerHTML=`<div class="admin-empty"><i class="fa-solid fa-inbox"></i>${!apps.length?'Brak aplikacji':'Brak wyników dla wybranych filtrów'}<span>${!apps.length?'Nikt jeszcze nie złożył aplikacji':'Spróbuj zmienić kryteria wyszukiwania'}</span></div>`;return}
+  list.innerHTML=filtered.map(a=>{const ri=apps.indexOf(a);return`
+    <div class="app-entry"><div class="app-entry-avatar">${(a.nick||'?')[0].toUpperCase()}</div><div class="app-entry-info"><div class="app-entry-name">${a.nick||'Nieznany'}</div><div class="app-entry-meta">
+    <span class="status-tag ${a.status}"><i class="fa-solid ${a.status==='accepted'?'fa-circle-check':a.status==='rejected'?'fa-circle-xmark':'fa-hourglass-half'}"></i> ${a.status==='accepted'?'Przyjęty':a.status==='rejected'?'Odrzucony':'Oczekuje'}</span>
+    <span class="app-entry-date"><i class="fa-regular fa-calendar" style="font-size:.48rem;margin-right:2px"></i>${a.date||'—'}</span>
+    <span class="app-entry-date"><i class="fa-solid fa-cake-candles" style="font-size:.48rem;margin-right:2px"></i>${a.age||'?'} lat</span>
+    </div></div><div class="app-entry-actions">
+    <button class="action-btn view" onclick="viewApp(${ri})" title="Podgląd"><i class="fa-solid fa-eye"></i></button>
+    <button class="action-btn accept" onclick="setAppStatus(${ri},'accepted')" title="Przyjmij"><i class="fa-solid fa-check"></i></button>
+    <button class="action-btn reject" onclick="setAppStatus(${ri},'rejected')" title="Odrzuć"><i class="fa-solid fa-xmark"></i></button>
+    <button class="action-btn delete" onclick="deleteApp(${ri})" title="Usuń"><i class="fa-solid fa-trash-can"></i></button>
+    </div></div>`}).join('')}
+
+function viewApp(i){
+  const a=apps[i];if(!a)return;
+  const fields=[['fa-at','Nick',a.nick],['fa-cake-candles','Wiek',a.age],['fa-clock','Czas/dzień',a.time],['fa-sun','Aktywność',a.hrs],['fa-medal','Doświadczenie',a.exp],['fa-pen-to-square','Opis doświadczenia',a.exp_det],
+  ['fa-lightbulb','Motywacja',a.why],['fa-user-tie','Rola helpera',a.role],
+  ['fa-file-circle-question','Syt.1 — Brak dowodów',a.s1],['fa-fire','Syt.2 — Drama',a.s2],['fa-user-shield','Syt.3 — Znajomy scammer',a.s3],['fa-skull-crossbones','Syt.4 — Groźby',a.s4],
+  ['fa-graduation-cap','Definicja scamu',a.def],['fa-list','Rodzaje scamów',[a.st1,a.st2,a.st3].filter(Boolean).join(' • ')],['fa-search','Wymagane dowody',a.evidence],
+  ['fa-brain','Stres i presja',a.stress],['fa-bug','Największa wada',a.flaw],['fa-message','Dodatkowe uwagi',a.extra]];
+  const steps=[a.c1,a.c2,a.c3,a.c4,a.c5,a.c6].filter(Boolean);
+  const ranges=[['fa-hourglass-half','Cierpliwość',a.r1],['fa-comments','Komunikacja',a.r2],['fa-shield-halved','Stres',a.r3],['fa-scale-balanced','Obiektywność',a.r4]];
+  $('viewContent').innerHTML=`
+    <div class="view-user"><div class="view-user-avatar">${(a.nick||'?')[0].toUpperCase()}</div><div class="view-user-info"><div class="view-user-name">${a.nick||'Nieznany'}</div><div class="view-user-meta">
+    <span><i class="fa-solid fa-cake-candles"></i>${a.age||'?'} lat</span>
+    <span><i class="fa-regular fa-clock"></i>${a.time||'?'}</span>
+    <span><i class="fa-regular fa-calendar"></i>${a.date||'—'}</span>
+    <span class="status-tag ${a.status}" style="font-size:.52rem"><i class="fa-solid ${a.status==='accepted'?'fa-circle-check':a.status==='rejected'?'fa-circle-xmark':'fa-hourglass-half'}"></i> ${a.status==='accepted'?'Przyjęty':a.status==='rejected'?'Odrzucony':'Oczekuje'}</span>
+    </div></div></div>
+    ${fields.filter(f=>f[2]).map(f=>`<div class="view-field"><div class="view-field-label"><i class="fa-solid ${f[0]}"></i>${f[1]}</div><div class="view-field-value">${f[2]}</div></div>`).join('')}
+    ${steps.length?`<div class="view-field"><div class="view-field-label"><i class="fa-solid fa-list-ol"></i>Case Test — Kroki procedury</div><div class="view-steps">${steps.map((s,j)=>`<div class="view-step"><span class="view-step-num">${j+1}</span>${s}</div>`).join('')}</div></div>`:''}
+    ${ranges.some(r=>r[2])?`<div class="view-field"><div class="view-field-label"><i class="fa-solid fa-sliders"></i>Samoocena</div><div class="view-ranges">${ranges.map(r=>`<div class="view-range"><span class="view-range-label"><i class="fa-solid ${r[0]}"></i>${r[1]}</span><span class="view-range-value">${r[2]||5}/10</span></div>`).join('')}</div></div>`:''}
+    <div class="view-actions">
+      <button class="view-btn accept-btn" onclick="setAppStatus(${i},'accepted');closeView()"><i class="fa-solid fa-circle-check"></i> Przyjmij</button>
+      <button class="view-btn reject-btn" onclick="setAppStatus(${i},'rejected');closeView()"><i class="fa-solid fa-circle-xmark"></i> Odrzuć</button>
+      <button class="view-btn close-btn" onclick="closeView()"><i class="fa-solid fa-arrow-left"></i> Wróć</button>
+    </div>`;
+  $('viewOv').classList.add('on')}
+function closeView(){$('viewOv').classList.remove('on')}
+function setAppStatus(i,s){apps[i].status=s;saveApps();renderAdmin();toast(s==='accepted'?'Aplikacja przyjęta!':'Aplikacja odrzucona.',s==='accepted'?'success':'error')}
+function deleteApp(i){if(confirm('Na pewno usunąć tę aplikację?')){apps.splice(i,1);saveApps();renderAdmin();toast('Aplikacja usunięta','info')}}
+
+// ══ SECTIONS OBSERVER ══
+function observeSections(){const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.06,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.form-section').forEach(s=>obs.observe(s))}
+
+// ══ CONDITIONAL ══
+function toggleCond(id,show){$(id).classList.toggle('show',show)}
+
+// ══ CHAR COUNT ══
+function updateCharCount(el,id){const c=$(id),l=el.value.length,m=parseInt(el.getAttribute('minlength'))||0;c.textContent=`${l} / ${m} min. znaków`;c.className='char-counter '+(l>=m?'ok':l>=m*.5?'mid':'low')}
+
+// ══ OPTION STYLING ══
+document.querySelectorAll('.option-item input').forEach(inp=>{inp.addEventListener('change',function(){if(this.type==='radio'){this.closest('.options-list').querySelectorAll('.option-item').forEach(o=>o.classList.remove('selected'));this.closest('.option-item').classList.add('selected')}else this.closest('.option-item').classList.toggle('selected',this.checked);updateProgress()})});
+
+// ══ PROGRESS ══
+function updateProgress(){const form=$('mainForm'),rn=new Set();let tot=0,fil=0;form.querySelectorAll('[required]').forEach(el=>{if(el.type==='radio'){if(!rn.has(el.name)){rn.add(el.name);tot++;if(form.querySelector(`[name="${el.name}"]:checked`))fil++}}else if(el.type==='checkbox'){tot++;if(el.checked)fil++}else{tot++;if(el.value.trim())fil++}});const p=tot?Math.round(fil/tot*100):0;$('progFill').style.width=p+'%';$('progPercent').textContent=p+'%'}
+$('mainForm').addEventListener('input',updateProgress);$('mainForm').addEventListener('change',updateProgress);
+
+// ══ SCROLL SPY ══
+const secIcons=['fa-id-card','fa-medal','fa-lightbulb','fa-sitemap','fa-graduation-cap','fa-brain','fa-flask-vial','fa-file-signature'];
+const secNames=['Dane podstawowe','Doświadczenie','Motywacja','Scenariusze','Wiedza','Cechy osobiste','Test praktyczny','Regulamin i zgody'];
+function scrollSpy(){document.querySelectorAll('.form-section').forEach((s,i)=>{const r=s.getBoundingClientRect();if(r.top<200&&r.bottom>200){$('curSection').innerHTML=`<i class="fa-solid ${secIcons[i]}"></i> ${secNames[i]}`;document.querySelectorAll('.p-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector(`.p-dot[data-s="${i+1}"]`);if(dot)dot.classList.add('active')}})}
+window.addEventListener('scroll',scrollSpy,{passive:true});
+document.querySelectorAll('.p-dot').forEach(d=>{d.addEventListener('click',()=>{const t=document.querySelector(`.form-section[data-s="${d.dataset.s}"]`);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})});
+
+// ══ FORM SUBMIT ══
+$('mainForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  const data=Object.fromEntries(new FormData(this));
+  data.date=new Date().toLocaleDateString('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  data.status='pending';
+  if(currentUser){data.userId=currentUser.id;data.userAvatar=currentUser.avatar;data.userGlobal=currentUser.global_name||currentUser.username}
+  apps.push(data);saveApps();
+
+  // ══ DISCORD WEBHOOK ══
+  if(C.WEBHOOK){
+    const embed={
+      title:'🛡️ Nowa aplikacja na Helpera',
+      color:0xf97316,
+      thumbnail:{url:C.LOGO},
+      fields:[
+        {name:'👤 Nick',value:'```'+(data.nick||'—')+'```',inline:true},
+        {name:'🎂 Wiek',value:'```'+(data.age||'—')+' lat```',inline:true},
+        {name:'⏰ Czas/dzień',value:'```'+(data.time||'—')+'```',inline:true},
+        {name:'🎮 Doświadczenie',value:'```'+(data.exp||'—')+'```',inline:true},
+        {name:'───────────────────',value:'\u200b'},
+        {name:'💡 Dlaczego helper?',value:(data.why||'—').substring(0,1024)},
+        {name:'📋 Rola helpera',value:(data.role||'—').substring(0,512)},
+        {name:'───────────────────',value:'\u200b'},
+        {name:'🎭 Syt.1 — Bez dowodów',value:(data.s1||'—').substring(0,800)},
+        {name:'🔥 Syt.2 — Drama',value:(data.s2||'—').substring(0,800)},
+        {name:'👤 Syt.3 — Znajomy',value:(data.s3||'—').substring(0,800)},
+        {name:'💀 Syt.4 — Groźby',value:(data.s4||'—').substring(0,800)},
+        {name:'───────────────────',value:'\u200b'},
+        {name:'📚 Definicja scamu',value:(data.def||'—').substring(0,512)},
+        {name:'📊 Rodzaje scamów',value:[data.st1,data.st2,data.st3].filter(Boolean).map((s,i)=>`${i+1}. ${s}`).join('\n')||'—'},
+        {name:'🔍 Wymagane dowody',value:(data.evidence||'—').substring(0,512)},
+        {name:'🧠 Stres',value:(data.stress||'—').substring(0,512)},
+        {name:'⚠️ Wada',value:(data.flaw||'—').substring(0,512)},
+        {name:'🔬 Case Test',value:[data.c1,data.c2,data.c3,data.c4,data.c5,data.c6].filter(Boolean).map((s,i)=>`**${i+1}.** ${s}`).join('\n')||'—'},
+        {name:'📊 Samoocena',value:`Cierpliwość: **${data.r1||5}**/10 │ Komunikacja: **${data.r2||5}**/10 │ Stres: **${data.r3||5}**/10 │ Obiektywność: **${data.r4||5}**/10`},
+      ].filter(f=>f.value&&f.value!=='—'&&!f.value.startsWith('───')||f.name.includes('───')),
+      footer:{text:C.NAME+' • Recruitment System • '+data.date,icon_url:C.LOGO},
+      timestamp:new Date().toISOString()
+    };
+    if(currentUser?.avatar)embed.author={name:currentUser.global_name||currentUser.username,icon_url:`https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png?size=64`};
+    fetch(C.WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      content:C.ADMIN_IDS.map(id=>`<@${id}>`).join(' ')+' — **Nowa aplikacja na Helpera!**',
+      embeds:[embed]
+    })}).catch(()=>{})
+  }
+
+  fireConfetti();$('successModal').classList.add('on');toast('Aplikacja wysłana pomyślnie!','success',6000)
+});
+
+function closeSuccess(){$('successModal').classList.remove('on')}
+
+// Close modals on overlay click
+['adminOv','viewOv','successModal'].forEach(id=>{$(id).addEventListener('click',function(e){if(e.target===this){if(id==='adminOv')closeAdmin();else if(id==='viewOv')closeView();else closeSuccess()}})});
+</script>
+</body>
+</html>.pl-logo{width:72px;height:72px;position:relative;animation:scaleIn .7s cubic-bezier(.4,0,.2,1) both}
 .pl-logo img{width:100%;height:100%;border-radius:50%;filter:drop-shadow(0 0 18px var(--glow));animation:logoPulse 2.5s ease-in-out infinite}
 @keyframes logoPulse{0%,100%{filter:drop-shadow(0 0 18px var(--glow));transform:scale(1)}50%{filter:drop-shadow(0 0 35px var(--glows));transform:scale(1.03)}}
 .pl-ring{position:absolute;inset:-7px;border:2px solid transparent;border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite}
