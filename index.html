@@ -7,948 +7,495 @@
     <link rel="icon" type="image/png" href="https://cdn.discordapp.com/icons/1439881308053442601/fe7acfa40dfdda68b1bc98737dbef913.webp?size=1024">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
         :root {
-            --bg-primary: #050505;
-            --bg-secondary: #0a0a0a;
-            --bg-card: #0f0f0f;
-            --bg-card-hover: #141414;
-            --bg-input: #0a0a0a;
-            --bg-input-focus: #0e0e0e;
-            --orange-300: #fdba74;
-            --orange-400: #fb923c;
-            --orange-500: #f97316;
-            --orange-600: #ea580c;
-            --orange-700: #c2410c;
-            --orange-800: #9a3412;
+            --bg: #050505;
+            --card: #0f0f0f;
+            --input: #0a0a0a;
             --accent: #f97316;
-            --accent-light: #fb923c;
-            --accent-dark: #ea580c;
-            --accent-glow: rgba(249, 115, 22, 0.4);
-            --accent-glow-strong: rgba(249, 115, 22, 0.6);
-            --accent-glow-subtle: rgba(249, 115, 22, 0.12);
-            --red: #ef4444;
-            --green: #22c55e;
-            --yellow: #eab308;
-            --blue: #3b82f6;
-            --text-primary: #fafafa;
-            --text-secondary: #a3a3a3;
-            --text-muted: #525252;
-            --border: #1a1a1a;
-            --border-hover: #2a2a2a;
-            --border-focus: #f97316;
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-            --radius-2xl: 24px;
-            --radius-full: 9999px;
+            --accent2: #fb923c;
+            --glow: rgba(249, 115, 22, 0.5);
+            --text: #fafafa;
+            --text2: #a3a3a3;
+            --border: #1f1f1f;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        *::-webkit-scrollbar { width: 5px; }
-        *::-webkit-scrollbar-track { background: var(--bg-primary); }
-        *::-webkit-scrollbar-thumb { background: var(--orange-800); border-radius: 10px; }
-        *::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-        ::selection { background: rgba(249, 115, 22, 0.3); color: var(--text-primary); }
-
         body {
             font-family: 'Space Grotesk', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* ═══ CONFIG ═══ */
-        /* ADMIN IDS - dodaj swoje Discord User ID */
+        /* === BACKGROUND === */
+        .bg {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background: 
+                linear-gradient(rgba(249,115,22,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(249,115,22,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 30s linear infinite;
+        }
+        @keyframes gridMove { to { transform: translate(60px, 60px); } }
 
-        /* ═══ BACKGROUND ═══ */
-        .bg-fx {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none; overflow: hidden;
+        .particle {
+            position: absolute; border-radius: 50%; background: var(--accent);
+            box-shadow: 0 0 12px var(--glow); animation: particleRise linear infinite;
         }
-        .bg-grid {
-            position: absolute; top: 0; left: 0; width: 200%; height: 200%;
-            background-image:
-                linear-gradient(rgba(249,115,22,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(249,115,22,0.025) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridScroll 25s linear infinite;
-        }
-        @keyframes gridScroll { to { transform: translate(-50px, -50px); } }
-
-        .bg-orb {
-            position: absolute; border-radius: 50%; filter: blur(100px);
-            animation: orbDrift 20s ease-in-out infinite;
-        }
-        .bg-orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%); top: -15%; right: -10%; }
-        .bg-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(234,88,12,0.07) 0%, transparent 70%); bottom: 10%; left: -8%; animation-delay: -7s; }
-        .bg-orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(251,146,60,0.05) 0%, transparent 70%); top: 40%; right: 15%; animation-delay: -14s; }
-        @keyframes orbDrift {
-            0%, 100% { transform: translate(0,0) scale(1); }
-            33% { transform: translate(40px,-50px) scale(1.08); }
-            66% { transform: translate(-30px,30px) scale(0.92); }
+        @keyframes particleRise {
+            to { transform: translateY(-120vh) scale(0.2); opacity: 0; }
         }
 
-        .ember {
-            position: absolute; border-radius: 50%;
-            background: var(--accent); opacity: 0;
-            box-shadow: 0 0 6px var(--accent-glow), 0 0 12px var(--accent-glow-subtle);
-            animation: rise linear infinite;
+        /* === LOGIN === */
+        #loginScreen {
+            position: fixed; inset: 0; z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--bg); transition: all 0.8s ease;
         }
-        @keyframes rise {
-            0% { transform: translateY(0) translateX(0) scale(1) rotate(0); opacity: 0; }
-            8% { opacity: 0.9; }
-            100% { transform: translateY(-110vh) translateX(60px) scale(0) rotate(360deg); opacity: 0; }
-        }
-
-        .hex-pattern {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52'%3E%3Cpath d='M30 0l30 15v22L30 52 0 37V15z' fill='none' stroke='rgba(249,115,22,0.02)' stroke-width='0.5'/%3E%3C/svg%3E");
-            background-size: 60px 52px;
-            animation: hexFloat 30s linear infinite;
-        }
-        @keyframes hexFloat { to { transform: translate(30px, 26px); } }
-
-        .scanline {
-            position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-            background: linear-gradient(90deg, transparent, rgba(249,115,22,0.08), transparent);
-            animation: scan 6s linear infinite; opacity: 0.6;
-        }
-        @keyframes scan { 0% { top: -3px; } 100% { top: 100%; } }
-
-        .noise-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
-            opacity: 0.5;
-        }
-
-        /* ═══ LOGIN ═══ */
-        .login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 9999; display: flex; align-items: center; justify-content: center;
-            background: var(--bg-primary);
-            transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), visibility 0.8s;
-        }
-        .login-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-
         .login-card {
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: var(--radius-2xl); padding: 52px 44px; text-align: center;
-            max-width: 420px; width: 92%; position: relative; overflow: hidden;
-            box-shadow: 0 0 60px rgba(249,115,22,0.08), 0 25px 50px rgba(0,0,0,0.5);
-            animation: cardEntry 0.8s cubic-bezier(0.4,0,0.2,1);
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 24px; padding: 60px 50px; text-align: center;
+            max-width: 420px; width: 90%; box-shadow: 0 0 80px rgba(249,115,22,0.15);
+            animation: loginPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        @keyframes cardEntry {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
+        @keyframes loginPop { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        .login-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), var(--orange-400), transparent);
+        .logo-container {
+            width: 110px; height: 110px; margin: 0 auto 30px; position: relative;
         }
-        .login-card::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle at center, rgba(249,115,22,0.03) 0%, transparent 50%);
-            pointer-events: none; animation: loginGlow 4s ease-in-out infinite;
-        }
-        @keyframes loginGlow {
-            0%, 100% { opacity: 0.5; } 50% { opacity: 1; }
-        }
-
-        .login-logo {
-            width: 90px; height: 90px; margin: 0 auto 28px;
-            position: relative; z-index: 1;
-        }
-        .login-logo img {
-            width: 100%; height: 100%; object-fit: contain; border-radius: 50%;
-            filter: drop-shadow(0 0 25px var(--accent-glow));
+        .logo-container img {
+            width: 100%; height: 100%; border-radius: 50%; object-fit: contain;
+            filter: drop-shadow(0 0 30px var(--glow));
             animation: logoPulse 3s ease-in-out infinite;
         }
-        .login-logo .logo-orbit {
-            position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px;
-            border: 1.5px solid transparent; border-top-color: var(--accent);
-            border-right-color: rgba(249,115,22,0.3);
-            border-radius: 50%; animation: spin 4s linear infinite;
-        }
-        .login-logo .logo-orbit-2 {
-            position: absolute; top: -16px; left: -16px; right: -16px; bottom: -16px;
-            border: 1px solid transparent; border-bottom-color: rgba(249,115,22,0.15);
-            border-radius: 50%; animation: spin 7s linear infinite reverse;
-        }
-        @keyframes logoPulse {
-            0%, 100% { filter: drop-shadow(0 0 25px var(--accent-glow)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 45px var(--accent-glow-strong)); transform: scale(1.04); }
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes logoPulse { 50% { filter: drop-shadow(0 0 50px var(--glow)); } }
 
         .login-title {
-            font-size: 1.9rem; font-weight: 700; margin-bottom: 6px;
-            position: relative; z-index: 1;
-            background: linear-gradient(135deg, var(--orange-300), var(--accent), var(--orange-600));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            font-size: 2.1rem; font-weight: 700; margin-bottom: 8px;
+            background: linear-gradient(90deg, #fdba74, #f97316, #fb923c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .login-subtitle {
-            color: var(--text-secondary); font-size: 0.88rem;
-            margin-bottom: 36px; position: relative; z-index: 1; line-height: 1.5;
-        }
+        .login-subtitle { color: var(--text2); margin-bottom: 40px; }
 
         .discord-btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            width: 100%; padding: 15px 28px; background: #5865F2; color: white; border: none;
-            border-radius: var(--radius-md); font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.95rem; font-weight: 600; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-            position: relative; z-index: 1; overflow: hidden;
+            width: 100%; padding: 16px; background: #5865F2; color: white;
+            border: none; border-radius: 12px; font-weight: 600; font-size: 1.05rem;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            cursor: pointer; transition: all 0.3s ease; margin-bottom: 16px;
         }
-        .discord-btn::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-            transition: left 0.6s ease;
-        }
-        .discord-btn:hover { background: #4752C4; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(88,101,242,0.35); }
-        .discord-btn:hover::before { left: 100%; }
-        .discord-btn:active { transform: translateY(0); }
-        .discord-btn .ic { font-size: 1.2rem; }
+        .discord-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(88,101,242,0.4); }
 
-        .login-sep {
-            display: flex; align-items: center; gap: 14px; margin: 22px 0;
-            position: relative; z-index: 1;
+        .guest-link {
+            color: #666; font-size: 0.85rem; cursor: pointer; text-decoration: underline;
+            transition: color 0.3s;
         }
-        .login-sep::before, .login-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-        .login-sep span { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
+        .guest-link:hover { color: var(--accent); }
 
-        .guest-btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            width: 100%; padding: 13px 28px; background: transparent;
-            color: var(--text-secondary); border: 1px solid var(--border);
-            border-radius: var(--radius-md); font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.88rem; font-weight: 500; cursor: pointer;
-            transition: all 0.3s ease; position: relative; z-index: 1;
+        /* === LOADING === */
+        #loadingScreen {
+            position: fixed; inset: 0; z-index: 9999; background: var(--bg);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            gap: 30px;
         }
-        .guest-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow-subtle); }
-        .guest-btn .ic { font-size: 0.9rem; }
+        #loadingScreen.active { display: flex; }
 
-        .login-foot {
-            margin-top: 22px; font-size: 0.72rem; color: var(--text-muted);
-            position: relative; z-index: 1; display: flex; align-items: center;
-            justify-content: center; gap: 6px;
+        .loading-logo {
+            width: 90px; height: 90px; animation: loadingSpin 2s linear infinite;
         }
-        .login-foot .ic { color: var(--accent); font-size: 0.7rem; }
+        @keyframes loadingSpin { to { transform: rotate(360deg); } }
 
-        /* ═══ LOADING ═══ */
-        .loading-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 9998; display: none; align-items: center; justify-content: center;
-            flex-direction: column; background: var(--bg-primary);
-        }
-        .loading-screen.active { display: flex; }
-
-        .loader {
-            width: 50px; height: 50px; position: relative; margin-bottom: 28px;
-        }
-        .loader .ring {
-            position: absolute; width: 100%; height: 100%;
-            border: 2px solid transparent; border-radius: 50%;
-        }
-        .loader .ring-1 { border-top-color: var(--accent); animation: spin 0.9s linear infinite; }
-        .loader .ring-2 { border-right-color: var(--orange-400); animation: spin 1.4s linear infinite reverse; width: 80%; height: 80%; top: 10%; left: 10%; }
-        .loader .ring-3 { border-bottom-color: var(--orange-700); animation: spin 2s linear infinite; width: 60%; height: 60%; top: 20%; left: 20%; }
-
-        .load-text {
-            color: var(--text-secondary); font-size: 0.88rem;
-            animation: loadPulse 1.5s ease-in-out infinite;
-        }
-        @keyframes loadPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        .load-bar {
-            width: 180px; height: 2px; background: var(--border);
-            border-radius: 10px; margin-top: 18px; overflow: hidden;
-        }
-        .load-bar-fill {
-            width: 0%; height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--orange-400));
-            border-radius: 10px; transition: width 0.4s ease;
+        .loading-text {
+            font-family: 'JetBrains Mono', monospace; color: var(--accent);
+            font-size: 1.1rem; letter-spacing: 3px; min-height: 28px;
         }
 
-        /* ═══ APP ═══ */
-        .app { display: none; opacity: 0; transition: opacity 0.7s ease; }
-        .app.visible { display: block; opacity: 1; }
+        /* === MAIN APP === */
+        #mainApp { display: none; }
+        #mainApp.visible { display: block; animation: fadeIn 1s ease; }
 
-        /* ═══ HEADER ═══ */
         .header {
-            position: relative; z-index: 1; text-align: center;
-            padding: 44px 20px 36px; border-bottom: 1px solid var(--border);
+            text-align: center; padding: 50px 20px 30px; position: relative;
+            border-bottom: 1px solid var(--border);
         }
-        .header-glow {
-            position: absolute; top: -120px; left: 50%; transform: translateX(-50%);
-            width: 700px; height: 500px;
-            background: radial-gradient(ellipse, rgba(249,115,22,0.08) 0%, transparent 65%);
-            pointer-events: none;
+        .header::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 2px; background: linear-gradient(to right, transparent, var(--accent), transparent);
         }
 
-        .header-logo {
-            width: 72px; height: 72px; margin: 0 auto 18px; position: relative;
-        }
         .header-logo img {
-            width: 100%; height: 100%; object-fit: contain; border-radius: 50%;
-            filter: drop-shadow(0 0 15px var(--accent-glow));
-        }
-        .header-logo .ring {
-            position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px;
-            border: 1.5px solid transparent; border-top-color: var(--accent);
-            border-radius: 50%; animation: spin 3s linear infinite;
+            width: 85px; height: 85px; border-radius: 50%; filter: drop-shadow(0 0 25px var(--glow));
         }
 
         .header h1 {
-            font-size: 2.2rem; font-weight: 700; letter-spacing: -0.5px;
-            margin-bottom: 4px; position: relative; z-index: 1;
-        }
-        .header h1 .gr {
-            background: linear-gradient(135deg, var(--orange-300), var(--accent));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-        .header .tagline {
-            color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 18px;
+            font-size: 2.4rem; margin: 15px 0 8px;
+            background: linear-gradient(90deg, #fdba74, #f97316);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .badges {
-            display: flex; align-items: center; justify-content: center;
-            gap: 10px; flex-wrap: wrap;
-        }
-        .badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 5px 14px; background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: var(--radius-full); font-size: 0.75rem;
-            color: var(--text-secondary); font-weight: 500;
-        }
-        .badge .ic { font-size: 0.65rem; }
-        .badge .pulse { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 2s ease-in-out infinite; }
-        .badge.or { border-color: rgba(249,115,22,0.25); color: var(--orange-300); }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        .user-bar {
-            display: none; align-items: center; justify-content: center; gap: 10px;
-            margin: 18px auto 0; padding: 8px 18px;
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: var(--radius-full); width: fit-content;
-        }
-        .user-bar.vis { display: flex; }
-        .user-bar .av { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--accent); }
-        .user-bar .uname { font-size: 0.82rem; font-weight: 600; }
-        .user-bar .utag { font-size: 0.72rem; color: var(--text-muted); }
-        .user-bar .log-out, .user-bar .admin-btn {
-            padding: 3px 10px; background: transparent; border: 1px solid var(--border);
-            border-radius: var(--radius-full); color: var(--text-muted); font-size: 0.68rem;
-            cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.3s ease;
-        }
-        .user-bar .log-out:hover { border-color: var(--red); color: var(--red); }
-        .user-bar .admin-btn { border-color: rgba(249,115,22,0.3); color: var(--orange-300); display: none; }
-        .user-bar .admin-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow-subtle); }
-        .user-bar .admin-btn.vis { display: inline-flex; align-items: center; gap: 4px; }
-        .user-bar .admin-btn .ic { font-size: 0.6rem; }
-
-        /* ═══ ADMIN PANEL ═══ */
-        .admin-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 10001; display: none; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.88); backdrop-filter: blur(15px);
-        }
-        .admin-overlay.open { display: flex; }
-
-        .admin-panel {
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: var(--radius-2xl); padding: 36px;
-            max-width: 600px; width: 92%; max-height: 85vh; overflow-y: auto;
-            animation: modalIn 0.4s cubic-bezier(0.4,0,0.2,1);
-            position: relative;
-        }
-        .admin-panel::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--orange-400), var(--accent));
-        }
-        @keyframes modalIn {
-            from { transform: scale(0.92) translateY(20px); opacity: 0; }
-            to { transform: scale(1) translateY(0); opacity: 1; }
-        }
-
-        .admin-panel .ap-head {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
-        }
-        .admin-panel .ap-head h2 {
-            font-size: 1.2rem; display: flex; align-items: center; gap: 8px;
-        }
-        .admin-panel .ap-head h2 .ic { color: var(--accent); }
-        .admin-panel .ap-close {
-            width: 32px; height: 32px; background: var(--bg-input); border: 1px solid var(--border);
-            border-radius: 8px; color: var(--text-muted); cursor: pointer; display: flex;
-            align-items: center; justify-content: center; transition: all 0.3s ease; font-size: 0.85rem;
-        }
-        .admin-panel .ap-close:hover { border-color: var(--red); color: var(--red); }
-
-        .admin-panel .ap-stat {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;
-        }
-        .admin-panel .stat-card {
-            background: var(--bg-input); border: 1px solid var(--border);
-            border-radius: var(--radius-md); padding: 14px; text-align: center;
-        }
-        .admin-panel .stat-card .stat-val {
-            font-family: 'JetBrains Mono', monospace; font-size: 1.6rem;
-            font-weight: 700; color: var(--accent);
-        }
-        .admin-panel .stat-card .stat-lbl {
-            font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;
-            letter-spacing: 1px; margin-top: 4px;
-        }
-
-        .admin-panel .ap-apps {
-            display: flex; flex-direction: column; gap: 8px;
-        }
-        .admin-panel .app-entry {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 14px; background: var(--bg-input); border: 1px solid var(--border);
-            border-radius: var(--radius-md); transition: all 0.3s ease;
-        }
-        .admin-panel .app-entry:hover { border-color: var(--border-hover); }
-        .admin-panel .app-entry .ae-info {
-            display: flex; align-items: center; gap: 10px;
-        }
-        .admin-panel .app-entry .ae-av {
-            width: 32px; height: 32px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--orange-700), var(--accent));
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.75rem; font-weight: 700;
-        }
-        .admin-panel .app-entry .ae-name { font-size: 0.85rem; font-weight: 600; }
-        .admin-panel .app-entry .ae-date { font-size: 0.7rem; color: var(--text-muted); }
-        .admin-panel .app-entry .ae-actions { display: flex; gap: 6px; }
-        .admin-panel .app-entry .ae-btn {
-            padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border);
-            background: transparent; cursor: pointer; font-size: 0.7rem;
-            font-family: 'Space Grotesk', sans-serif; transition: all 0.3s ease;
-        }
-        .admin-panel .app-entry .ae-btn.accept { color: var(--green); border-color: rgba(34,197,94,0.3); }
-        .admin-panel .app-entry .ae-btn.accept:hover { background: rgba(34,197,94,0.1); }
-        .admin-panel .app-entry .ae-btn.reject { color: var(--red); border-color: rgba(239,68,68,0.3); }
-        .admin-panel .app-entry .ae-btn.reject:hover { background: rgba(239,68,68,0.1); }
-        .admin-panel .app-entry .ae-btn.view { color: var(--accent); border-color: rgba(249,115,22,0.3); }
-        .admin-panel .app-entry .ae-btn.view:hover { background: var(--accent-glow-subtle); }
-
-        .admin-panel .ap-empty {
-            text-align: center; padding: 32px; color: var(--text-muted); font-size: 0.85rem;
-        }
-        .admin-panel .ap-empty .ic { font-size: 2rem; display: block; margin-bottom: 10px; color: var(--border-hover); }
-
-        /* ═══ PROGRESS ═══ */
+        /* Progress */
         .progress-container {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(5,5,5,0.92); backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); padding: 12px 20px;
-        }
-        .progress-inner { max-width: 740px; margin: 0 auto; }
-        .progress-top {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
-        }
-        .prog-section {
-            font-size: 0.75rem; color: var(--orange-300); font-weight: 600;
-            display: flex; align-items: center; gap: 6px;
-        }
-        .prog-section .ic { font-size: 0.7rem; }
-        .prog-pct {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
-            color: var(--accent); font-weight: 600;
-        }
-        .prog-track {
-            width: 100%; height: 3px; background: var(--border);
-            border-radius: 10px; overflow: visible; position: relative;
+            position: sticky; top: 0; z-index: 100; background: rgba(5,5,5,0.95);
+            backdrop-filter: blur(16px); padding: 14px 20px; border-bottom: 1px solid var(--border);
         }
         .prog-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--orange-700), var(--accent), var(--orange-400));
-            border-radius: 10px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-            width: 0%; position: relative;
-        }
-        .prog-fill::after {
-            content: ''; position: absolute; right: -3px; top: -3px;
-            width: 9px; height: 9px; background: var(--accent); border-radius: 50%;
-            box-shadow: 0 0 12px var(--accent-glow), 0 0 4px var(--accent);
-        }
-        .prog-dots {
-            display: flex; justify-content: space-between; margin-top: 8px; padding: 0 2px;
-        }
-        .prog-dot {
-            display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer;
-        }
-        .prog-dot .d {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--bg-card); border: 1.5px solid var(--border);
-            transition: all 0.3s ease;
-        }
-        .prog-dot.active .d { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
-        .prog-dot.done .d { border-color: var(--green); background: var(--green); }
-        .prog-dot .dl {
-            font-size: 0.58rem; color: var(--text-muted); font-weight: 500;
-            letter-spacing: 0.3px; white-space: nowrap;
-        }
-        .prog-dot.active .dl { color: var(--orange-300); }
-
-        /* ═══ CONTAINER ═══ */
-        .container {
-            max-width: 740px; margin: 0 auto; padding: 28px 20px 100px;
-            position: relative; z-index: 1;
+            height: 4px; background: linear-gradient(90deg, var(--accent), #fb923c);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px var(--glow);
         }
 
+        /* Sections */
         .section {
-            margin-bottom: 44px; opacity: 0; transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
+            opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+            margin-bottom: 60px;
         }
-        .section.vis { opacity: 1; transform: translateY(0); }
-
-        .sec-label {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
-            color: var(--accent); text-transform: uppercase; letter-spacing: 3px;
-            margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+        .section.visible {
+            opacity: 1; transform: translateY(0);
         }
-        .sec-label::before { content: ''; width: 18px; height: 1px; background: var(--accent); }
 
         .sec-head {
-            display: flex; align-items: center; gap: 14px;
-            margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
         }
         .sec-ico {
-            width: 44px; height: 44px;
-            background: linear-gradient(135deg, var(--orange-800), var(--accent));
-            border-radius: var(--radius-md); display: flex; align-items: center;
-            justify-content: center; flex-shrink: 0;
-            box-shadow: 0 4px 15px rgba(249,115,22,0.25);
-            color: var(--bg-primary); font-size: 1rem;
+            width: 52px; height: 52px; background: linear-gradient(135deg, var(--accent), #fb923c);
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; color: black; box-shadow: 0 0 20px var(--glow);
         }
-        .sec-title { font-size: 1.2rem; font-weight: 700; }
-        .sec-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
 
-        /* ═══ CARDS ═══ */
         .card {
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: var(--radius-xl); padding: 26px; margin-bottom: 12px;
-            transition: all 0.3s ease; position: relative; overflow: hidden;
+            background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+            padding: 28px; transition: all 0.4s ease;
         }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-glow-subtle), transparent);
-            opacity: 0; transition: opacity 0.3s;
+        .card:hover {
+            border-color: var(--accent); box-shadow: 0 0 30px rgba(249,115,22,0.15);
+            transform: translateY(-4px);
         }
-        .card:hover { border-color: rgba(249,115,22,0.15); }
-        .card:hover::before { opacity: 1; }
-        .card.sc { border-left: 2px solid var(--accent); }
-        .card.sc:nth-child(even) { border-left-color: var(--orange-700); }
 
-        /* ═══ FORM ═══ */
-        .fg { margin-bottom: 22px; }
-        .fg:last-child { margin-bottom: 0; }
-
-        label.fl {
-            display: block; font-size: 0.85rem; font-weight: 600;
-            color: var(--text-primary); margin-bottom: 8px; line-height: 1.4;
-        }
-        .req { color: var(--accent); margin-left: 2px; }
-        .hint { display: block; font-size: 0.73rem; color: var(--text-muted); font-weight: 400; margin-top: 3px; }
-
+        /* Form */
+        .fl { font-weight: 600; margin-bottom: 8px; display: block; }
         .qn {
-            display: inline-flex; align-items: center; justify-content: center;
-            min-width: 20px; height: 20px; padding: 0 5px;
-            background: var(--accent); color: var(--bg-primary); border-radius: 5px;
-            font-size: 0.63rem; font-weight: 700; margin-right: 7px;
-            font-family: 'JetBrains Mono', monospace;
+            background: var(--accent); color: black; padding: 2px 8px;
+            border-radius: 6px; font-size: 0.7rem; font-weight: 700; margin-right: 8px;
         }
 
-        input[type="text"], input[type="number"], textarea {
-            width: 100%; padding: 12px 14px; background: var(--bg-input);
-            border: 1px solid var(--border); border-radius: var(--radius-md);
-            color: var(--text-primary); font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.85rem; transition: all 0.3s ease; outline: none;
+        input, textarea {
+            width: 100%; background: var(--input); border: 1px solid var(--border);
+            border-radius: 12px; padding: 14px; color: white; font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
         input:focus, textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-glow-subtle), 0 0 20px rgba(249,115,22,0.05);
-            background: var(--bg-input-focus);
+            outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(249,115,22,0.2);
         }
-        input::placeholder, textarea::placeholder { color: var(--text-muted); }
-        textarea { min-height: 100px; resize: vertical; line-height: 1.7; }
-        textarea.sm { min-height: 70px; }
-        textarea.lg { min-height: 140px; }
-
-        .opts { display: flex; flex-direction: column; gap: 6px; }
-        .opts.row { flex-direction: row; flex-wrap: wrap; }
 
         .opt {
-            display: flex; align-items: center; gap: 10px;
-            padding: 11px 14px; background: var(--bg-input);
-            border: 1px solid var(--border); border-radius: var(--radius-md);
-            cursor: pointer; transition: all 0.3s ease; user-select: none;
+            padding: 14px; background: var(--input); border: 1px solid var(--border);
+            border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: all 0.3s;
+            display: flex; align-items: center; gap: 12px;
         }
-        .opt:hover { border-color: rgba(249,115,22,0.25); background: rgba(249,115,22,0.02); }
-        .opt input { display: none; }
+        .opt:hover { border-color: var(--accent); }
+        .opt input:checked + * { color: var(--accent); }
 
-        .opt .rd {
-            width: 16px; height: 16px; border: 2px solid var(--border);
-            border-radius: 50%; flex-shrink: 0; transition: all 0.3s ease; position: relative;
-        }
-        .opt input:checked ~ .rd { border-color: var(--accent); }
-        .opt input:checked ~ .rd::after {
-            content: ''; position: absolute; top: 2.5px; left: 2.5px;
-            width: 7px; height: 7px; background: var(--accent); border-radius: 50%;
-            box-shadow: 0 0 6px var(--accent-glow);
-            animation: dotPop 0.3s cubic-bezier(0.4,0,0.2,1);
-        }
-        @keyframes dotPop { from { transform: scale(0); } to { transform: scale(1); } }
-
-        .opt .cb {
-            width: 16px; height: 16px; border: 2px solid var(--border);
-            border-radius: 4px; flex-shrink: 0; transition: all 0.3s ease;
-            display: flex; align-items: center; justify-content: center; font-size: 9px;
-        }
-        .opt input:checked ~ .cb {
-            border-color: var(--accent); background: var(--accent); color: var(--bg-primary);
-        }
-        .opt input:checked ~ .cb::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; }
-
-        .opt .ot { font-size: 0.82rem; color: var(--text-secondary); transition: color 0.3s; }
-        .opt input:checked ~ .ot { color: var(--text-primary); }
-        .opt.sel { border-color: var(--accent); background: rgba(249,115,22,0.05); }
-        .opt .ic { width: 16px; text-align: center; font-size: 0.75rem; color: var(--text-muted); }
-        .opt input:checked ~ .ic { color: var(--accent); }
-
-        .cond { display: none; margin-top: 10px; padding-left: 14px; border-left: 2px solid var(--accent); }
-        .cond.show { display: block; animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-
-        .sc-tag {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 2px 9px; background: rgba(249,115,22,0.1);
-            border-radius: var(--radius-full); font-size: 0.68rem; font-weight: 600;
-            color: var(--orange-300); margin-bottom: 8px;
-            font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
-        }
-        .sc-tag .ic { font-size: 0.6rem; }
-        .sc-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 10px; }
-        .sc-quote {
-            background: rgba(0,0,0,0.4); border-left: 2px solid var(--accent);
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-            padding: 12px 16px; margin-bottom: 12px; font-size: 0.82rem;
-            line-height: 1.7; color: var(--text-secondary);
-        }
-
-        .range-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .ri { display: flex; flex-direction: column; gap: 5px; }
-        .ri label { font-size: 0.78rem; color: var(--text-secondary); font-weight: 500; }
-        .rr { display: flex; align-items: center; gap: 8px; }
-        input[type="range"] {
-            flex: 1; -webkit-appearance: none; appearance: none;
-            height: 3px; background: var(--border); border-radius: 10px; outline: none;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
-            background: var(--accent); cursor: pointer;
-            box-shadow: 0 0 10px var(--accent-glow); border: 2px solid var(--bg-primary);
-        }
-        .rv {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
-            font-weight: 700; color: var(--accent); min-width: 24px; text-align: right;
-        }
-
-        .info-box {
-            display: flex; gap: 10px; padding: 12px 16px;
-            background: rgba(249,115,22,0.05); border: 1px solid rgba(249,115,22,0.12);
-            border-radius: var(--radius-md); margin-bottom: 18px;
-        }
-        .info-box.warn { background: rgba(234,179,8,0.04); border-color: rgba(234,179,8,0.12); }
-        .info-box .ic { color: var(--accent); font-size: 0.85rem; flex-shrink: 0; margin-top: 1px; }
-        .info-box.warn .ic { color: var(--yellow); }
-        .info-box p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
-
-        /* Case Test */
-        .case-box {
-            background: linear-gradient(135deg, rgba(249,115,22,0.06), rgba(234,88,12,0.02));
-            border: 1px solid rgba(249,115,22,0.15);
-            border-radius: var(--radius-xl); padding: 22px; margin-bottom: 18px;
-        }
-        .case-lbl {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 3px 12px; background: var(--accent); color: var(--bg-primary);
-            border-radius: var(--radius-full); font-size: 0.65rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .case-lbl .ic { font-size: 0.6rem; }
-        .case-msg {
-            background: var(--bg-primary); border: 1px solid var(--border);
-            border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px;
-        }
-        .case-msg .mh { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .case-msg .ma {
-            width: 32px; height: 32px;
-            background: linear-gradient(135deg, var(--orange-600), var(--red));
-            border-radius: 50%; display: flex; align-items: center;
-            justify-content: center; font-size: 12px; font-weight: 700;
-        }
-        .case-msg .mn { font-weight: 600; font-size: 0.85rem; }
-        .case-msg .mt { font-size: 0.65rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
-        .case-msg .mb { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; padding-left: 42px; }
-
-        .steps { display: flex; flex-direction: column; gap: 8px; }
-        .step { display: flex; align-items: center; gap: 8px; }
-        .sn {
-            width: 26px; height: 26px; background: var(--bg-input);
-            border: 1px solid var(--border); border-radius: 6px;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
-            font-weight: 700; color: var(--accent); flex-shrink: 0;
-        }
-        .step input { flex: 1; }
-
-        .consent-item {
-            display: flex; align-items: flex-start; gap: 10px;
-            padding: 12px 14px; background: var(--bg-input);
-            border: 1px solid var(--border); border-radius: var(--radius-md);
-            margin-bottom: 6px; cursor: pointer; transition: all 0.3s ease;
-        }
-        .consent-item:hover { border-color: rgba(249,115,22,0.25); }
-        .consent-item input { display: none; }
-        .consent-item .cx {
-            width: 18px; height: 18px; border: 2px solid var(--border);
-            border-radius: 4px; flex-shrink: 0; transition: all 0.3s ease;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 10px; margin-top: 1px;
-        }
-        .consent-item input:checked + .cx { border-color: var(--green); background: var(--green); color: var(--bg-primary); }
-        .consent-item input:checked + .cx::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; }
-        .consent-item .ct { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
-
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border), rgba(249,115,22,0.1), var(--border), transparent);
-            margin: 44px 0;
-        }
-
-        .submit-area { text-align: center; padding: 28px 0; }
         .submit-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 16px 48px;
-            background: linear-gradient(135deg, var(--orange-700), var(--accent), var(--orange-400));
-            color: var(--bg-primary); border: none; border-radius: var(--radius-lg);
-            font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700;
-            cursor: pointer; transition: all 0.3s ease; text-transform: uppercase;
-            letter-spacing: 1.5px; position: relative; overflow: hidden;
-            box-shadow: 0 4px 25px rgba(249,115,22,0.25);
+            background: linear-gradient(90deg, var(--accent), #fb923c);
+            color: black; padding: 18px 60px; border: none; border-radius: 16px;
+            font-size: 1.1rem; font-weight: 700; cursor: pointer; margin: 40px auto;
+            display: block; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(249,115,22,0.3);
         }
-        .submit-btn .ic { font-size: 0.85rem; }
-        .submit-btn::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
-            transition: left 0.6s ease;
+        .submit-btn:hover {
+            transform: scale(1.05); box-shadow: 0 15px 40px rgba(249,115,22,0.5);
         }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(249,115,22,0.4); }
-        .submit-btn:hover::before { left: 100%; }
-        .submit-btn:active { transform: translateY(0); }
-        .submit-note { margin-top: 14px; font-size: 0.75rem; color: var(--text-muted); line-height: 1.7; }
 
-        /* Modal */
+        /* Success */
         .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 10000; display: none; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.88); backdrop-filter: blur(12px);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: none; align-items: center; justify-content: center; z-index: 2000;
         }
         .modal.open { display: flex; }
         .modal-box {
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: var(--radius-2xl); padding: 44px 36px;
-            text-align: center; max-width: 440px; width: 90%;
-            animation: modalIn 0.4s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden;
+            background: var(--card); padding: 50px; border-radius: 24px; text-align: center;
+            max-width: 420px; animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .modal-box::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, var(--green), var(--accent));
-        }
-        .modal-box .mi { font-size: 3rem; margin-bottom: 18px; display: block; color: var(--accent); }
-        .modal-box h2 {
-            font-size: 1.3rem; margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--orange-300), var(--accent));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-        .modal-box p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.7; margin-bottom: 24px; }
-        .modal-close {
-            padding: 10px 32px; background: var(--accent); color: var(--bg-primary);
-            border: none; border-radius: var(--radius-md);
-            font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem;
-            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
-        }
-        .modal-close:hover { background: var(--accent-light); box-shadow: 0 4px 20px var(--accent-glow); }
-
-        .char-count {
-            text-align: right; font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem; color: var(--text-muted); margin-top: 3px;
-        }
-        .char-count.ok { color: var(--green); }
-        .char-count.mid { color: var(--yellow); }
-        .char-count.low { color: var(--red); }
-
-        .footer {
-            text-align: center; padding: 28px 20px; border-top: 1px solid var(--border);
-            position: relative; z-index: 1;
-        }
-        .footer p { font-size: 0.72rem; color: var(--text-muted); }
-        .footer .fl { width: 28px; height: 28px; margin: 0 auto 8px; opacity: 0.3; }
-        .footer .fl img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
-
-        @media (max-width: 768px) {
-            .header h1 { font-size: 1.7rem; }
-            .card { padding: 18px; }
-            .range-grid { grid-template-columns: 1fr; }
-            .prog-dots { display: none; }
-            .opts.row { flex-direction: column; }
-            .submit-btn { width: 100%; justify-content: center; }
-            .login-card { padding: 36px 24px; }
-            .admin-panel .ap-stat { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 480px) {
-            .header { padding: 32px 14px 28px; }
-            .header h1 { font-size: 1.4rem; }
-            .container { padding: 18px 14px 70px; }
-            .sec-head { flex-direction: column; text-align: center; }
-            .badges { flex-direction: column; }
-        }
+        @keyframes successPop { from { transform: scale(0.6); } to { transform: scale(1); } }
     </style>
 </head>
 <body>
 
-<script>
-    const CONFIG = {
-        ADMIN_IDS: [
-            '1192911278503633006',
-            '1457160616098791444', 
-        ],
-        DISCORD_CLIENT_ID: '1394227602121818132',
-        WEBHOOK_URL: 'https://discord.com/api/webhooks/1494309622062911489/UZNO4Tq1ognnf2JN6QbaHwk_l6DiFPCkcNnVov0xroQvQ5W46-r_u51Q5ScylKj6ieYf', // <- wstaw URL webhooka Discord (opcjonalnie)
-        SERVER_NAME: 'Zgłoś Cwela',
-        LOGO_URL: 'https://cdn.discordapp.com/attachments/1494043635879251978/1494305520691970178/zglos_1.png?ex=69e21ff6&is=69e0ce76&hm=9e98b5d66b8d153188e44070e8c69f5c1e3922e32a5f62186d5f0ea8f1729af0&',
-    };
-</script>
-
-<div class="bg-fx">
-    <div class="bg-grid"></div>
-    <div class="hex-pattern"></div>
-    <div class="bg-orb bg-orb-1"></div>
-    <div class="bg-orb bg-orb-2"></div>
-    <div class="bg-orb bg-orb-3"></div>
-    <div class="scanline"></div>
-    <div class="noise-overlay"></div>
-    <div id="embers"></div>
-</div>
+<div class="bg" id="bg"></div>
 
 <!-- LOGIN -->
-<div class="login-screen" id="loginScreen">
+<div id="loginScreen">
     <div class="login-card">
-        <div class="login-logo">
-            <div class="logo-orbit"></div>
-            <div class="logo-orbit-2"></div>
-            <img id="loginLogoImg" src="" alt="Logo">
+        <div class="logo-container">
+            <img src="https://cdn.discordapp.com/attachments/1494043635879251978/1494305520691970178/zglos_1.png" alt="Logo">
         </div>
-        <h2 class="login-title" id="loginTitle">Zgłoś Cwela</h2>
-        <p class="login-subtitle">Zaloguj się aby wypełnić formularz rekrutacyjny na Helpera</p>
-        <button class="discord-btn" onclick="loginDiscord()">
-            <i class="fa-brands fa-discord ic"></i> Zaloguj się przez Discord
+        <h2 class="login-title">Zgłoś Cwela</h2>
+        <p class="login-subtitle">Autoryzuj się przez Discord, aby kontynuować rekrutację</p>
+        
+        <button class="discord-btn" onclick="loginWithDiscord()">
+            <i class="fa-brands fa-discord"></i> Zaloguj się przez Discord
         </button>
-        <div class="login-sep"><span>lub</span></div>
-        <button class="guest-btn" onclick="loginGuest()">
-            <i class="fa-solid fa-user ic"></i> Kontynuuj bez logowania
-        </button>
-        <p class="login-foot"><i class="fa-solid fa-lock ic"></i> Nie przechowujemy danych logowania</p>
+        
+        <p style="margin-top:20px; color:#444; font-size:0.8rem;">
+            Tylko członkowie Discord mogą aplikować
+        </p>
     </div>
 </div>
 
 <!-- LOADING -->
-<div class="loading-screen" id="loadScreen">
-    <div class="loader">
-        <div class="ring ring-1"></div>
-        <div class="ring ring-2"></div>
-        <div class="ring ring-3"></div>
-    </div>
-    <p class="load-text" id="loadText">Łączenie z Discord...</p>
-    <div class="load-bar"><div class="load-bar-fill" id="loadFill"></div></div>
+<div id="loadingScreen">
+    <img class="loading-logo" src="https://cdn.discordapp.com/attachments/1494043635879251978/1494305520691970178/zglos_1.png" alt="Logo">
+    <div class="loading-text" id="loadingText">Łączenie z Discord...</div>
 </div>
 
-<!-- ADMIN PANEL -->
-<div class="admin-overlay" id="adminOverlay">
-    <div class="admin-panel">
-        <div class="ap-head">
-            <h2><i class="fa-solid fa-crown ic"></i> Panel Admina</h2>
-            <button class="ap-close" onclick="closeAdmin()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="ap-stat">
-            <div class="stat-card">
-                <div class="stat-val" id="statTotal">0</div>
-                <div class="stat-lbl">Aplikacje</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" id="statPending">0</div>
-                <div class="stat-lbl">Oczekujące</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" id="statAccepted">0</div>
-                <div class="stat-lbl">Przyjęte</div>
-            </div>
-        </div>
-        <div class="ap-apps" id="adminApps">
-            <div class="ap-empty">
-                <i class="fa-solid fa-inbox ic"></i>
-                Brak aplikacji do wyświetlenia
-            </div>
-        </div>
-    </div>
-</div>
+<!-- MAIN APP -->
+<div id="mainApp">
 
-<!-- APP -->
-<div class="app" id="mainApp">
     <header class="header">
-        <div class="header-glow"></div>
-        <div class="header-logo">
-            <div class="ring"></div>
-            <img id="headerLogoImg" src="" alt="Logo">
+        <div class="logo-container" style="width:80px;height:80px;margin:0 auto 15px">
+            <img src="https://cdn.discordapp.com/attachments/1494043635879251978/1494305520691970178/zglos_1.png" alt="Logo">
         </div>
-        <h1>Rekrutacja na <span class="gr">Helpera</span></h1>
-        <p class="tagline">Dołącz do zespołu i pomagaj chronić społeczność</p>
-        <div class="badges">
-            <span class="badge"><span class="pulse"></span> Rekrutacja otwarta</span>
-            <span class="badge or"><i class="fa-solid fa-shield-halved ic"></i> <span id="badgeServer">Zgłoś Cwela</span></span>
-            <span class="badge"><i class="fa-regular fa-clock ic"></i> ~10 min</span>
-        </div>
-        <div class="user-bar" id="userBar">
-            <img class="av" id="userAv" src="" alt="">
-            <span class="uname" id="uName"></span>
-            <span class="utag" id="uTag"></span>
-            <button class="admin-btn" id="adminBtn" onclick="openAdmin()"><i class="fa-solid fa-crown ic"></i> Admin</button>
-            <button class="log-out" onclick="logout()">Wyloguj</button>
-        </div>
+        <h1>Rekrutacja na <span style="color:#f97316">Helpera</span></h1>
+        <p style="color:#888">Zgłoś Cwela • Ochrona społeczności</p>
     </header>
 
+    <!-- Progress -->
     <div class="progress-container">
-        <div class="progress-inner">
-            <div class="progress-top">
-                <span class="prog-section" id="curSec"><i class="fa-solid fa-clipboard-list ic"></i> Sekcja 1: Dane podstawowe</span>
-                <span class="prog-pct" id="progPct">0%</span>
+        <div style="max-width:740px;margin:auto">
+            <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:0.8rem;color:#f97316" id="currentSection">
+                <span>Sekcja 1 • Dane podstawowe</span>
+                <span id="progressText">0%</span>
             </div>
-            <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
-            <div class="prog-dots">
-                <div class="prog-dot active" data-s="1"><div class="d"></div><span class="dl">Dane</span></div>
-                <div class="prog-dot" data-s="2"><div class="d"></div><span class="dl">Doświadczenie</span></div>
-                <div class="prog-dot" data-s="3"><div class="d"></div><span class="dl">Motywacja</span></div>
+            <div style="height:4px;background:#1a1a1a;border-radius:999px;overflow:hidden">
+                <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#f97316,#fb923c);transition:width 0.6s ease"></div>
+            </div>
+        </div>
+    </div>
+
+    <form id="recruitForm" style="max-width:740px;margin:40px auto;padding:0 20px">
+
+        <!-- Sekcja 1 -->
+        <div class="section" id="sec1">
+            <div class="sec-head"><div class="sec-ico"><i class="fa-solid fa-user"></i></div><div><h3>Dane podstawowe</h3></div></div>
+            <div class="card">
+                <label class="fl"><span class="qn">01</span>Nick na Discordzie <span style="color:#f97316">*</span></label>
+                <input type="text" id="discordNick" readonly style="background:#111">
+
+                <label class="fl" style="margin-top:20px"><span class="qn">02</span>Wiek <span style="color:#f97316">*</span></label>
+                <input type="number" name="age" min="14" max="99" placeholder="17" required>
+
+                <label class="fl" style="margin-top:20px"><span class="qn">03</span>Ile czasu dziennie możesz poświęcić? <span style="color:#f97316">*</span></label>
+                <div class="opts">
+                    <label class="opt"><input type="radio" name="time" value="1-2" required> <i class="fa-solid fa-clock"></i> 1-2 godziny</label>
+                    <label class="opt"><input type="radio" name="time" value="2-4"> <i class="fa-solid fa-clock"></i> 2-4 godziny</label>
+                    <label class="opt"><input type="radio" name="time" value="4+"> <i class="fa-solid fa-clock"></i> 4+ godzin</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sekcja 2 -->
+        <div class="section" id="sec2">
+            <div class="sec-head"><div class="sec-ico"><i class="fa-solid fa-gamepad"></i></div><div><h3>Doświadczenie</h3></div></div>
+            <div class="card">
+                <label class="fl"><span class="qn">04</span>Czy masz doświadczenie jako Helper/Moderator? <span style="color:#f97316">*</span></label>
+                <div class="opts">
+                    <label class="opt"><input type="radio" name="experience" value="yes" required onchange="toggleExperience(true)"> <i class="fa-solid fa-check"></i> Tak</label>
+                    <label class="opt"><input type="radio" name="experience" value="no" onchange="toggleExperience(false)"> <i class="fa-solid fa-xmark"></i> Nie</label>
+                </div>
+                <div id="experienceField" style="display:none;margin-top:15px">
+                    <label class="fl">Opisz swoje doświadczenie</label>
+                    <textarea name="experience_desc" placeholder="Serwery, role, czas działania..." rows="4"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sekcja 3 -->
+        <div class="section" id="sec3">
+            <div class="sec-head"><div class="sec-ico"><i class="fa-solid fa-lightbulb"></i></div><div><h3>Motywacja</h3></div></div>
+            <div class="card">
+                <label class="fl"><span class="qn">05</span>Dlaczego chcesz zostać Helperem w Zgłoś Cwela? <span style="color:#f97316">*</span></label>
+                <textarea name="motivation" rows="5" placeholder="Napisz szczerze dlaczego..." required></textarea>
+                
+                <label class="fl" style="margin-top:25px"><span class="qn">06</span>Jak rozumiesz rolę Helpera? <span style="color:#f97316">*</span></label>
+                <textarea name="role_understanding" rows="4" placeholder="Twoja wizja roli..." required></textarea>
+            </div>
+        </div>
+
+        <!-- Sekcja 4: Scenariusze -->
+        <div class="section" id="sec4">
+            <div class="sec-head"><div class="sec-ico"><i class="fa-solid fa-masks-theater"></i></div><div><h3>Scenariusze sytuacyjne</h3></div></div>
+            <div class="card">
+                <label class="fl"><span class="qn">07</span>Sytuacja 1: Użytkownik zgłasza scam, ale nie ma żadnych dowodów. Co robisz?</label>
+                <textarea name="scenario1" rows="4" required></textarea>
+            </div>
+            <div class="card">
+                <label class="fl"><span class="qn">08</span>Sytuacja 2: Na kanale wybucha drama i wyzwiska. Jak reagujesz?</label>
+                <textarea name="scenario2" rows="4" required></textarea>
+            </div>
+            <div class="card">
+                <label class="fl"><span class="qn">09</span>Sytuacja 3: Twój dobry znajomy zostaje oskarżony o scam. Co robisz?</label>
+                <textarea name="scenario3" rows="4" required></textarea>
+            </div>
+        </div>
+
+        <!-- Sekcja 5: Test Praktyczny -->
+        <div class="section" id="sec5">
+            <div class="sec-head"><div class="sec-ico"><i class="fa-solid fa-flask"></i></div><div><h3>Test praktyczny</h3></div></div>
+            <div class="card" style="border-left:4px solid #f97316">
+                <p style="background:#1a1a1a;padding:15px;border-radius:12px;margin-bottom:15px">
+                    <strong>Użytkownik napisał:</strong><br><br>
+                    "Kupiłem konto za 200zł od @SellerX, przelałem pieniądze, a on mnie zablokował. Mam screeny."
+                </p>
+                <label class="fl"><span class="qn">10</span>Opisz krok po kroku co robisz:</label>
+                <textarea name="practical_test" rows="8" placeholder="Krok 1: ...&#10;Krok 2: ..." required></textarea>
+            </div>
+        </div>
+
+        <!-- Zgody -->
+        <div class="section" id="sec6">
+            <div class="sec-head"><div class="sec-ico"><i class="fa-solid fa-file-signature"></i></div><div><h3>Zgody</h3></div></div>
+            <div class="card">
+                <label style="display:flex;align-items:start;gap:12px;cursor:pointer;margin:12px 0">
+                    <input type="checkbox" required style="margin-top:4px">
+                    <span>Zapoznałem się z regulaminem serwera i zobowiązuję się go przestrzegać</span>
+                </label>
+                <label style="display:flex;align-items:start;gap:12px;cursor:pointer;margin:12px 0">
+                    <input type="checkbox" required style="margin-top:4px">
+                    <span>Rozumiem, że rola Helpera jest dobrowolna i może zostać odebrana w każdej chwili</span>
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+            <i class="fa-solid fa-paper-plane"></i> WYŚLIJ APLIKACJĘ
+        </button>
+    </form>
+</div>
+
+<!-- SUCCESS -->
+<div id="successModal" class="modal">
+    <div class="modal-box">
+        <h2 style="color:#22c55e">Aplikacja wysłana pomyślnie!</h2>
+        <p>Twoja aplikacja została przekazana do administracji.<br>Dziękujemy i powodzenia!</p>
+        <button onclick="location.reload()" style="margin-top:20px;padding:12px 30px;background:var(--accent);color:black;border:none;border-radius:12px;cursor:pointer">Powrót do strony</button>
+    </div>
+</div>
+
+<script>
+// CONFIG
+const CONFIG = {
+    ADMIN_IDS: ['1192911278503633006', '1457160616098791444'],
+    WEBHOOK_URL: 'https://discord.com/api/webhooks/1494309622062911489/UZNO4Tq1ognnf2JN6QbaHwk_l6DiFPCkcNnVov0xroQvQ5W46-r_u51Q5ScylKj6ieYf',
+    SERVER_NAME: 'Zgłoś Cwela'
+};
+
+// Particles
+function createParticles() {
+    const bg = document.getElementById('bg');
+    for (let i = 0; i < 45; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 15 + 15) + 's';
+        p.style.animationDelay = Math.random() * -20 + 's';
+        p.style.opacity = Math.random() * 0.4 + 0.2;
+        bg.appendChild(p);
+    }
+}
+createParticles();
+
+// Login
+function loginWithDiscord() {
+    document.getElementById('loginScreen').style.opacity = '0';
+    setTimeout(() => {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('loadingScreen').classList.add('active');
+        simulateLoading();
+    }, 600);
+}
+
+function simulateLoading() {
+    const texts = [
+        "Łączenie z Discord...",
+        "Weryfikacja tożsamości...",
+        "Pobieranie profilu...",
+        "Przygotowywanie formularza..."
+    ];
+    let i = 0;
+    const interval = setInterval(() => {
+        document.getElementById('loadingText').textContent = texts[i];
+        i = (i + 1) % texts.length;
+    }, 900);
+
+    setTimeout(() => {
+        clearInterval(interval);
+        document.getElementById('loadingScreen').classList.remove('active');
+        document.getElementById('mainApp').classList.add('visible');
+        
+        // Auto-fill nick (demo)
+        document.getElementById('discordNick').value = "@TwojNick123";
+    }, 3800);
+}
+
+// Form animations
+function animateSections() {
+    const sections = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, index * 100);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    sections.forEach(section => observer.observe(section));
+}
+
+// Toggle experience field
+function toggleExperience(show) {
+    document.getElementById('experienceField').style.display = show ? 'block' : 'none';
+}
+
+// Submit
+document.getElementById('recruitForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const data = Object.fromEntries(new FormData(this));
+    
+    if (CONFIG.WEBHOOK_URL) {
+        fetch(CONFIG.WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                embeds: [{
+                    title: 'Nowy kandydat na Helpera',
+                    color: 0xf97316,
+                    fields: [
+                        { name: 'Nick', value: document.getElementById('discordNick').value, inline: true },
+                        { name: 'Wiek', value: data.age || '—', inline: true },
+                        { name: 'Czas dziennie', value: data.time || '—', inline: true },
+                        { name: 'Motywacja', value: (data.motivation || '—').substring(0, 900) }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            })
+        });
+    }
+
+    document.getElementById('successModal').classList.add('open');
+});
+
+// Init
+window.onload = () => {
+    animateSections();
+    document.getElementById('loadingScreen').classList.remove('active');
+};
+</script>
+</body>
+</html>                <div class="prog-dot" data-s="3"><div class="d"></div><span class="dl">Motywacja</span></div>
                 <div class="prog-dot" data-s="4"><div class="d"></div><span class="dl">Scenariusze</span></div>
                 <div class="prog-dot" data-s="5"><div class="d"></div><span class="dl">Wiedza</span></div>
                 <div class="prog-dot" data-s="6"><div class="d"></div><span class="dl">Cechy</span></div>
