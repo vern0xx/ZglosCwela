@@ -1,0 +1,2128 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekrutacja na Helpera – Zgłoś Scammera</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-input: #16213e;
+            --accent-primary: #6c5ce7;
+            --accent-secondary: #a29bfe;
+            --accent-glow: rgba(108, 92, 231, 0.3);
+            --accent-green: #00e676;
+            --accent-red: #ff5252;
+            --accent-orange: #ffab40;
+            --accent-blue: #40c4ff;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0c0;
+            --text-muted: #6c6c80;
+            --border-color: #2a2a3e;
+            --border-focus: #6c5ce7;
+            --success: #00e676;
+            --danger: #ff5252;
+            --warning: #ffab40;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-animation .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: float linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Header */
+        .header {
+            position: relative;
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(180deg, rgba(108, 92, 231, 0.1) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .shield-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            display: block;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary), #e040fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .header .server-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 8px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .header .server-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 20px;
+            backdrop-filter: blur(20px);
+        }
+
+        .progress-bar-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .progress-info span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .progress-info .section-name {
+            color: var(--accent-secondary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), #e040fb);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active .step-dot {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .progress-step.completed .step-dot {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+
+        .progress-step .step-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-step.active .step-label {
+            color: var(--accent-secondary);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+        .section:nth-child(7) { animation-delay: 0.7s; }
+        .section:nth-child(8) { animation-delay: 0.8s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .section-header-text h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-header-text p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .section-number {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(108, 92, 231, 0.3);
+            box-shadow: 0 4px 30px rgba(108, 92, 231, 0.1);
+        }
+
+        .card.scenario-card {
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .card.scenario-card:nth-child(odd) {
+            border-left-color: var(--accent-orange);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        label .required {
+            color: var(--accent-red);
+            margin-left: 4px;
+        }
+
+        label .hint {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 7px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        textarea.small {
+            min-height: 80px;
+        }
+
+        textarea.large {
+            min-height: 180px;
+        }
+
+        /* Custom Radio & Checkbox */
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-group.horizontal,
+        .checkbox-group.horizontal {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .radio-option,
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .radio-option:hover,
+        .checkbox-option:hover {
+            border-color: var(--accent-primary);
+            background: rgba(108, 92, 231, 0.05);
+        }
+
+        .radio-option input,
+        .checkbox-option input {
+            display: none;
+        }
+
+        .radio-option .custom-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .radio-option input:checked ~ .custom-radio {
+            border-color: var(--accent-primary);
+            background: var(--accent-primary);
+        }
+
+        .radio-option input:checked ~ .custom-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .checkbox-option .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-option input:checked ~ .custom-checkbox {
+            border-color: var(--accent-primary);
+            background: var(--accent-primary);
+        }
+
+        .checkbox-option input:checked ~ .custom-checkbox::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .radio-option input:checked ~ .option-text,
+        .checkbox-option input:checked ~ .option-text {
+            color: var(--text-primary);
+        }
+
+        .option-text {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .radio-option.selected,
+        .checkbox-option.selected {
+            border-color: var(--accent-primary);
+            background: rgba(108, 92, 231, 0.08);
+        }
+
+        /* Scenario Cards */
+        .scenario-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: rgba(108, 92, 231, 0.15);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            margin-bottom: 12px;
+        }
+
+        .scenario-text {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        /* Range Slider */
+        .range-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .range-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .range-item label {
+            font-size: 0.82rem;
+            margin-bottom: 0;
+        }
+
+        .range-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: var(--bg-input);
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .range-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent-secondary);
+        }
+
+        /* Info Box */
+        .info-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px 20px;
+            background: rgba(108, 92, 231, 0.08);
+            border: 1px solid rgba(108, 92, 231, 0.2);
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .info-box.warning {
+            background: rgba(255, 171, 64, 0.08);
+            border-color: rgba(255, 171, 64, 0.2);
+        }
+
+        .info-box .info-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-box p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Consent Section */
+        .consent-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .consent-item:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .consent-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .consent-check {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1px;
+        }
+
+        .consent-item input:checked + .consent-check {
+            border-color: var(--accent-green);
+            background: var(--accent-green);
+        }
+
+        .consent-item input:checked + .consent-check::after {
+            content: '✓';
+            color: var(--bg-primary);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .consent-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Submit Button */
+        .submit-container {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 48px;
+            background: linear-gradient(135deg, var(--accent-primary), #e040fb);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(108, 92, 231, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-note {
+            margin-top: 16px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 40px 0;
+        }
+
+        /* Case Test Special */
+        .case-test-box {
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(224, 64, 251, 0.05));
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .case-test-box .case-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .case-test-box .case-tag {
+            padding: 4px 12px;
+            background: var(--accent-primary);
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .case-message {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .case-message .msg-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .case-message .msg-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .case-message .msg-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .case-message .msg-time {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .case-message .msg-content {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            padding-left: 46px;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-input {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .step-input input {
+            flex: 1;
+        }
+
+        /* Modal / Success */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 48px;
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            animation: modalPop 0.4s ease;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-content .success-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .modal-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .modal-close-btn {
+            padding: 12px 32px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--accent-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .range-group {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-steps {
+                display: none;
+            }
+
+            .radio-group.horizontal {
+                flex-direction: column;
+            }
+
+            .submit-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 40px 16px 30px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 20px 16px 80px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Conditional fields */
+        .conditional-field {
+            display: none;
+            margin-top: 12px;
+            padding-left: 20px;
+            border-left: 2px solid var(--accent-primary);
+            animation: slideDown 0.3s ease;
+        }
+
+        .conditional-field.visible {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Character counter */
+        .char-counter {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .char-counter.warning {
+            color: var(--accent-orange);
+        }
+
+        .char-counter.danger {
+            color: var(--accent-red);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Particles -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <span class="shield-icon">🛡️</span>
+        <h1>Rekrutacja na Helpera</h1>
+        <p class="subtitle">Dołącz do zespołu i pomagaj chronić społeczność przed scammerami</p>
+        <div class="server-badge">
+            <span class="dot"></span>
+            Serwer: Zgłoś Scammera
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar-wrapper">
+            <div class="progress-info">
+                <span class="section-name" id="currentSection">Sekcja 1: Dane podstawowe</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-steps">
+                <div class="progress-step active" data-section="1">
+                    <div class="step-dot"></div>
+                    <span class="step-label">Dane</span>
+                </div>
+                <div class="progress-step" data-section="2">
+                    <div class="step-dot"></div>
+                    <span class="step-label">Doświadczenie</span>
+                </div>
+                <div class="progress-step" data-section="3">
+                    <div class="step-dot"></div>
+                    <span class="step-label">Motywacja</span>
+                </div>
+                <div class="progress-step" data-section="4">
+                    <div class="step-dot"></div>
+                    <span class="step-label">Scenariusze</span>
+                </div>
+                <div class="progress-step" data-section="5">
+                    <div class="step-dot"></div>
+                    <span class="step-label">Wiedza</span>
+                </div>
+                <div class="progress-step" data-section="6">
+                    <div class="step-dot"></div>
+                    <span class="step-label">Cechy</span>
+                </div>
+                <div class="progress-step" data-section="7">
+                    <div class="step-dot"></div>
+                    <span class="step-label">Test</span>
+                </div>
+                <div class="progress-step" data-section="8">
+                    <div class="step-dot"></div>
+                    <span class="step-label">Zgody</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <form id="applicationForm" class="container">
+
+        <!-- SEKCJA 1: DANE PODSTAWOWE -->
+        <div class="section" data-section="1">
+            <div class="section-number">Sekcja 1 z 8</div>
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <div class="section-header-text">
+                    <h2>Dane podstawowe</h2>
+                    <p>Podstawowe informacje o Tobie</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">1</span>
+                        Nick na Discordzie <span class="required">*</span>
+                        <span class="hint">Z tagiem, np. User#1234 lub @username</span>
+                    </label>
+                    <input type="text" name="discord_nick" placeholder="np. @MójNick" required>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">2</span>
+                        Wiek <span class="required">*</span>
+                    </label>
+                    <input type="number" name="age" min="13" max="99" placeholder="np. 18" required>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">3</span>
+                        Strefa czasowa <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="timezone" value="utc1" required>
+                            <span class="custom-radio"></span>
+                            <span class="option-text">🇵🇱 UTC+1 (Polska)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="timezone" value="utc0">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">🇬🇧 UTC+0 (UK)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="timezone" value="utc2">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">🇺🇦 UTC+2 (Europa Wschodnia)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="timezone" value="other">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">🌍 Inna</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">4</span>
+                        Ile czasu dziennie możesz poświęcić na serwer? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="daily_time" value="less1" required>
+                            <span class="custom-radio"></span>
+                            <span class="option-text">⏰ Mniej niż 1 godzinę</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="daily_time" value="1-2">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">⏰ 1-2 godziny</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="daily_time" value="2-4">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">⏰ 2-4 godziny</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="daily_time" value="4-6">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">⏰ 4-6 godzin</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="daily_time" value="6plus">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">⏰ 6+ godzin</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">5</span>
+                        W jakich godzinach jesteś najczęściej aktywny/a? <span class="required">*</span>
+                        <span class="hint">Możesz wybrać kilka opcji</span>
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="active_hours" value="morning">
+                            <span class="custom-checkbox"></span>
+                            <span class="option-text">🌅 Rano (6:00 - 12:00)</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="active_hours" value="afternoon">
+                            <span class="custom-checkbox"></span>
+                            <span class="option-text">☀️ Popołudnie (12:00 - 18:00)</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="active_hours" value="evening">
+                            <span class="custom-checkbox"></span>
+                            <span class="option-text">🌙 Wieczór (18:00 - 23:00)</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="active_hours" value="night">
+                            <span class="custom-checkbox"></span>
+                            <span class="option-text">🌃 Noc (23:00 - 6:00)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">6</span>
+                        Od kiedy jesteś na naszym serwerze?
+                    </label>
+                    <input type="text" name="server_since" placeholder="np. Od marca 2024">
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SEKCJA 2: DOŚWIADCZENIE -->
+        <div class="section" data-section="2">
+            <div class="section-number">Sekcja 2 z 8</div>
+            <div class="section-header">
+                <div class="section-icon">🎮</div>
+                <div class="section-header-text">
+                    <h2>Doświadczenie</h2>
+                    <p>Twoje dotychczasowe doświadczenie w moderacji</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">7</span>
+                        Czy masz doświadczenie jako helper/moderator na innych serwerach? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="experience" value="yes" required onchange="toggleConditional('exp-details', true)">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">✅ Tak</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="experience" value="no" onchange="toggleConditional('exp-details', false)">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">❌ Nie</span>
+                        </label>
+                    </div>
+
+                    <div class="conditional-field" id="exp-details">
+                        <label>
+                            Opisz swoje doświadczenie:
+                            <span class="hint">Podaj nazwy serwerów, Twoje role, jak długo pełniłeś/aś funkcję, ile członków miał serwer</span>
+                        </label>
+                        <textarea name="experience_details" placeholder="np. Byłem moderatorem na serwerze 'Gaming PL' (2000 członków) przez 6 miesięcy. Zajmowałem się obsługą ticketów i weryfikacją użytkowników..." class="large"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">8</span>
+                        Czy znasz boty moderacyjne? <span class="hint">Zaznacz te, które znasz</span>
+                    </label>
+                    <div class="checkbox-group horizontal">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bots" value="mee6">
+                            <span class="custom-checkbox"></span>
+                            <span class="option-text">MEE6</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bots" value="dyno">
+                            <span class="custom-checkbox"></span>
+                            <span class="option-text">Dyno</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bots" value="carlbot">
+                            <span class="custom-checkbox"></span>
+                            <span class="option-text">Carl-bot</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bots" value="wick">
+                            <span class="custom-checkbox"></span>
+                            <span class="option-text">Wick</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bots" value="automod">
+                            <span class="custom-checkbox"></span>
+                            <span class="option-text">AutoMod</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bots" value="tickettool">
+                            <span class="custom-checkbox"></span>
+                            <span class="option-text">Ticket Tool</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">9</span>
+                        Czy kiedykolwiek zostałeś/aś usunięty/a z zespołu na innym serwerze? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="removed" value="no" required onchange="toggleConditional('removed-details', false)">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">❌ Nie</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="removed" value="yes" onchange="toggleConditional('removed-details', true)">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">✅ Tak</span>
+                        </label>
+                    </div>
+
+                    <div class="conditional-field" id="removed-details">
+                        <label>Opisz dlaczego:</label>
+                        <textarea name="removed_reason" placeholder="Opisz szczerze co się stało..." class="small"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">10</span>
+                        Czy masz doświadczenie w obsłudze zgłoszeń / ticketów? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="ticket_exp" value="yes" required>
+                            <span class="custom-radio"></span>
+                            <span class="option-text">✅ Tak – mam doświadczenie</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="ticket_exp" value="want_learn">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">📚 Nie, ale chcę się nauczyć</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="ticket_exp" value="no">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">❌ Nie</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SEKCJA 3: MOTYWACJA -->
+        <div class="section" data-section="3">
+            <div class="section-number">Sekcja 3 z 8</div>
+            <div class="section-header">
+                <div class="section-icon">💡</div>
+                <div class="section-header-text">
+                    <h2>Motywacja</h2>
+                    <p>Chcemy poznać Twoje intencje i podejście</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">11</span>
+                        Dlaczego chcesz zostać helperem na "Zgłoś Scammera"? <span class="required">*</span>
+                        <span class="hint">Minimum 3 zdania – napisz szczerze, nie kopiuj z internetu</span>
+                    </label>
+                    <textarea name="why_helper" placeholder="Opisz swoją motywację..." class="large" required minlength="50" oninput="updateCharCount(this, 'charCount1')"></textarea>
+                    <div class="char-counter" id="charCount1">0 / 50 min. znaków</div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">12</span>
+                        Jak rozumiesz rolę helpera? Czym różni się helper od moderatora? <span class="required">*</span>
+                    </label>
+                    <textarea name="role_understanding" placeholder="Opisz jak rozumiesz tę rolę..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">13</span>
+                        Co możesz wnieść do naszego zespołu? <span class="required">*</span>
+                    </label>
+                    <textarea name="what_you_bring" placeholder="Opisz swoje mocne strony i umiejętności..." class="small" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">14</span>
+                        Gdzie widzisz siebie na tym serwerze za 3 miesiące? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="future_plans" value="stay_helper" required>
+                            <span class="custom-radio"></span>
+                            <span class="option-text">🛡️ Nadal jako helper – chcę pomagać</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="future_plans" value="moderator">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">⬆️ Chciałbym awansować na moderatora</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="future_plans" value="develop">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">🚀 Chcę rozwijać serwer (pomysły, eventy)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="future_plans" value="dunno">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">🤷 Nie wiem jeszcze</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SEKCJA 4: SCENARIUSZE -->
+        <div class="section" data-section="4">
+            <div class="section-number">Sekcja 4 z 8</div>
+            <div class="section-header">
+                <div class="section-icon">🎭</div>
+                <div class="section-header-text">
+                    <h2>Scenariusze sytuacyjne</h2>
+                    <p>Pokaż nam jak myślisz i jak reagujesz w trudnych sytuacjach</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <span class="info-icon">💡</span>
+                <p>Opisz co byś zrobił/a w każdej sytuacji. Odpowiadaj szczegółowo – chcemy zobaczyć Twój tok myślenia, nie „idealną" odpowiedź. Nie ma złych odpowiedzi!</p>
+            </div>
+
+            <!-- Scenario 1 -->
+            <div class="card scenario-card">
+                <div class="scenario-badge">📌 Sytuacja 1</div>
+                <h3 style="margin-bottom: 12px; font-size: 1rem;">Zgłoszenie bez dowodów</h3>
+                <div class="scenario-text">
+                    Użytkownik pisze: <em>"Zostałem scamnięty przez @JanekXD, zabrał mi 100zł za skina którego nie wysłał!"</em> – ale nie ma żadnych screenów, logów ani potwierdzeń płatności. Co robisz?
+                </div>
+                <textarea name="scenario_1" placeholder="Opisz krok po kroku co robisz..." required></textarea>
+            </div>
+
+            <!-- Scenario 2 -->
+            <div class="card scenario-card">
+                <div class="scenario-badge">📌 Sytuacja 2</div>
+                <h3 style="margin-bottom: 12px; font-size: 1rem;">Drama na kanale</h3>
+                <div class="scenario-text">
+                    Na kanale #ogólny wybucha kłótnia. Dwóch użytkowników wyzywa się nawzajem, pojawiają się wulgaryzmy, inni członkowie zaczynają się przyłączać i wybierać strony. Co robisz krok po kroku?
+                </div>
+                <textarea name="scenario_2" placeholder="Opisz krok po kroku co robisz..." required></textarea>
+            </div>
+
+            <!-- Scenario 3 -->
+            <div class="card scenario-card">
+                <div class="scenario-badge">📌 Sytuacja 3</div>
+                <h3 style="margin-bottom: 12px; font-size: 1rem;">Spam fałszywymi zgłoszeniami</h3>
+                <div class="scenario-text">
+                    Jeden użytkownik utworzył w ciągu godziny 8 ticketów ze zgłoszeniami, które po sprawdzeniu okazują się fałszywe lub bezzasadne. Jak reagujesz?
+                </div>
+                <textarea name="scenario_3" placeholder="Opisz krok po kroku co robisz..." required></textarea>
+            </div>
+
+            <!-- Scenario 4 -->
+            <div class="card scenario-card">
+                <div class="scenario-badge">📌 Sytuacja 4</div>
+                <h3 style="margin-bottom: 12px; font-size: 1rem;">Znajomy oskarżony o scam</h3>
+                <div class="scenario-text">
+                    Twój dobry znajomy (z którym grasz na co dzień) zostaje zgłoszony za scam. Zgłaszający ma screeny rozmów i potwierdzenie przelewu. Co robisz?
+                </div>
+                <textarea name="scenario_4" placeholder="Opisz krok po kroku co robisz..." required></textarea>
+            </div>
+
+            <!-- Scenario 5 -->
+            <div class="card scenario-card">
+                <div class="scenario-badge">⚠️ Sytuacja 5</div>
+                <h3 style="margin-bottom: 12px; font-size: 1rem;">Groźby</h3>
+                <div class="scenario-text">
+                    Użytkownik, którego zgłoszenie zostało potwierdzone (jest scammerem), pisze do Ciebie na DM: <em>"Jak nie zdejmiesz mi bana to zrobię raid na serwer i doxxuję Cię"</em>. Co robisz?
+                </div>
+                <textarea name="scenario_5" placeholder="Opisz krok po kroku co robisz..." required></textarea>
+            </div>
+
+            <!-- Scenario 6 -->
+            <div class="card scenario-card">
+                <div class="scenario-badge">🔍 Sytuacja 6</div>
+                <h3 style="margin-bottom: 12px; font-size: 1rem;">Niejednoznaczny przypadek</h3>
+                <div class="scenario-text">
+                    Użytkownik A twierdzi, że został scamnięty. Użytkownik B twierdzi, że to było nieporozumienie i chce oddać pieniądze. Obaj mają screeny, ale ich wersje się różnią. Jak podchodzisz do sprawy?
+                </div>
+                <textarea name="scenario_6" placeholder="Opisz krok po kroku co robisz..." required></textarea>
+            </div>
+
+            <!-- Scenario 7 -->
+            <div class="card scenario-card">
+                <div class="scenario-badge">🚨 Sytuacja 7</div>
+                <h3 style="margin-bottom: 12px; font-size: 1rem;">Inny helper łamie zasady</h3>
+                <div class="scenario-text">
+                    Zauważasz, że inny helper faworyzuje swojego znajomego – zamknął zgłoszenie na niego bez sprawdzenia dowodów. Co robisz?
+                </div>
+                <textarea name="scenario_7" placeholder="Opisz krok po kroku co robisz..." required></textarea>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SEKCJA 5: WIEDZA -->
+        <div class="section" data-section="5">
+            <div class="section-number">Sekcja 5 z 8</div>
+            <div class="section-header">
+                <div class="section-icon">📚</div>
+                <div class="section-header-text">
+                    <h2>Wiedza</h2>
+                    <p>Sprawdzamy Twoją wiedzę o scamach i bezpieczeństwie</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">22</span>
+                        Co to jest scam? Podaj swoją definicję. <span class="required">*</span>
+                    </label>
+                    <textarea name="scam_definition" placeholder="Napisz swoimi słowami..." class="small" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">23</span>
+                        Wymień minimum 3 rodzaje scamów, które znasz: <span class="required">*</span>
+                    </label>
+                    <input type="text" name="scam_type_1" placeholder="1. np. Fake giveaway" style="margin-bottom: 8px;" required>
+                    <input type="text" name="scam_type_2" placeholder="2. np. Phishing" style="margin-bottom: 8px;" required>
+                    <input type="text" name="scam_type_3" placeholder="3. np. Sprzedaż nieistniejących kont" style="margin-bottom: 8px;" required>
+                    <input type="text" name="scam_type_4" placeholder="4. (opcjonalnie)" style="margin-bottom: 8px;">
+                    <input type="text" name="scam_type_5" placeholder="5. (opcjonalnie)">
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">24</span>
+                        Jakie dowody są wymagane przy poprawnym zgłoszeniu scamu? <span class="required">*</span>
+                        <span class="hint">Wymień wszystkie jakie przyjdą Ci do głowy</span>
+                    </label>
+                    <textarea name="required_evidence" placeholder="Wymień wymagane dowody..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">25</span>
+                        Czy screenshot rozmowy na Discordzie to wystarczający dowód? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="screenshot_enough" value="yes" required>
+                            <span class="custom-radio"></span>
+                            <span class="option-text">✅ Tak</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="screenshot_enough" value="no">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">❌ Nie</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="screenshot_enough" value="depends">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">🤔 To zależy</span>
+                        </label>
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <label>Uzasadnij swoją odpowiedź: <span class="required">*</span></label>
+                        <textarea name="screenshot_justification" placeholder="Uzasadnij dlaczego..." class="small" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">26</span>
+                        Co to jest social engineering? Jak ma się do scamu?
+                    </label>
+                    <textarea name="social_engineering" placeholder="Opisz swoimi słowami..." class="small"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">27</span>
+                        Jaka jest różnica między scamem a nieporozumieniem? <span class="required">*</span>
+                    </label>
+                    <textarea name="scam_vs_misunderstanding" placeholder="Opisz różnicę..." class="small" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">28</span>
+                        Czy znasz regulamin naszego serwera? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="knows_rules" value="fully" required>
+                            <span class="custom-radio"></span>
+                            <span class="option-text">📖 Tak, znam go w całości</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="knows_rules" value="main">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">📋 Tak, znam główne zasady</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="knows_rules" value="briefly">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">👀 Przeczytałem/am pobieżnie</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="knows_rules" value="will_read">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">📚 Nie znam, ale przeczytam</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SEKCJA 6: CECHY OSOBISTE -->
+        <div class="section" data-section="6">
+            <div class="section-number">Sekcja 6 z 8</div>
+            <div class="section-header">
+                <div class="section-icon">🧠</div>
+                <div class="section-header-text">
+                    <h2>Cechy osobiste</h2>
+                    <p>Poznajemy Ciebie jako osobę</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">29</span>
+                        Jak radzisz sobie ze stresem i presją? <span class="required">*</span>
+                        <span class="hint">Opisz konkretną sytuację (online lub offline), w której musiałeś/aś zachować spokój</span>
+                    </label>
+                    <textarea name="stress_handling" placeholder="Opisz sytuację..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">30</span>
+                        Czy potrafisz być neutralny/a nawet wobec osób, które lubisz lub nie lubisz? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="neutrality" value="yes" required>
+                            <span class="custom-radio"></span>
+                            <span class="option-text">✅ Tak</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="neutrality" value="try">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">🔄 Staram się, ale bywa trudno</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="neutrality" value="not_always">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">⚠️ Nie zawsze</span>
+                        </label>
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <label>Opisz jak to realizujesz w praktyce:</label>
+                        <textarea name="neutrality_practice" placeholder="Jak dbasz o neutralność..." class="small"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">31</span>
+                        Jak reagujesz, gdy ktoś Cię obraża w DM po podjęciu decyzji moderacyjnej? <span class="required">*</span>
+                    </label>
+                    <textarea name="dm_insults" placeholder="Opisz swoją reakcję..." class="small" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">32</span>
+                        Czy zdarzyło Ci się zmienić zdanie w kłótni/dyskusji? Opisz taką sytuację:
+                    </label>
+                    <textarea name="changed_mind" placeholder="Opisz sytuację..." class="small"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">33</span>
+                        Oceń siebie w skali 1-10: <span class="required">*</span>
+                    </label>
+                    <div class="range-group">
+                        <div class="range-item">
+                            <label>Cierpliwość</label>
+                            <div class="range-row">
+                                <input type="range" name="patience" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value+'/10'">
+                                <span class="range-value">5/10</span>
+                            </div>
+                        </div>
+                        <div class="range-item">
+                            <label>Komunikatywność</label>
+                            <div class="range-row">
+                                <input type="range" name="communication" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value+'/10'">
+                                <span class="range-value">5/10</span>
+                            </div>
+                        </div>
+                        <div class="range-item">
+                            <label>Odporność na stres</label>
+                            <div class="range-row">
+                                <input type="range" name="stress_resistance" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value+'/10'">
+                                <span class="range-value">5/10</span>
+                            </div>
+                        </div>
+                        <div class="range-item">
+                            <label>Obiektywność</label>
+                            <div class="range-row">
+                                <input type="range" name="objectivity" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value+'/10'">
+                                <span class="range-value">5/10</span>
+                            </div>
+                        </div>
+                        <div class="range-item">
+                            <label>Znajomość Discorda</label>
+                            <div class="range-row">
+                                <input type="range" name="discord_knowledge" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value+'/10'">
+                                <span class="range-value">5/10</span>
+                            </div>
+                        </div>
+                        <div class="range-item">
+                            <label>Praca w zespole</label>
+                            <div class="range-row">
+                                <input type="range" name="teamwork" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value+'/10'">
+                                <span class="range-value">5/10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="question-number">34</span>
+                        Jaka jest Twoja największa WADA, która mogłaby przeszkadzać w roli helpera? <span class="required">*</span>
+                    </label>
+                    <textarea name="biggest_flaw" placeholder="Bądź szczery/a..." class="small" required></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SEKCJA 7: TEST PRAKTYCZNY -->
+        <div class="section" data-section="7">
+            <div class="section-number">Sekcja 7 z 8</div>
+            <div class="section-header">
+                <div class="section-icon">🔬</div>
+                <div class="section-header-text">
+                    <h2>Test praktyczny</h2>
+                    <p>Pokaż nam jak obsługujesz realne zgłoszenie</p>
+                </div>
+            </div>
+
+            <div class="info-box warning">
+                <span class="info-icon">⚠️</span>
+                <p>To najważniejsza sekcja formularza. Opisz dokładnie każdy krok – od momentu otrzymania zgłoszenia do zamknięcia sprawy. Im więcej szczegółów, tym lepiej.</p>
+            </div>
+
+            <div class="case-test-box">
+                <div class="case-header">
+                    <span class="case-tag">📋 CASE TEST</span>
+                </div>
+
+                <div class="case-message">
+                    <div class="msg-author">
+                        <div class="msg-avatar">M</div>
+                        <div>
+                            <div class="msg-name">MateuszTrader</div>
+                            <div class="msg-time">Dzisiaj o 18:42</div>
+                        </div>
+                    </div>
+                    <div class="msg-content">
+                        Hej, kupiłem od <strong>@DarkSeller</strong> konto do Fortnite za <strong>150zł</strong>. Przelałem mu pieniądze na BLIK, a on mnie zablokował i nie dostałem danych do konta. Mam screen rozmowy i potwierdzenie przelewu.
+                    </div>
+                </div>
+
+                <label style="margin-bottom: 16px;">
+                    Opisz KROK PO KROKU co robisz od momentu otrzymania tego zgłoszenia do momentu zamknięcia sprawy: <span class="required">*</span>
+                </label>
+
+                <div class="steps-container">
+                    <div class="step-input">
+                        <span class="step-number">1</span>
+                        <input type="text" name="case_step_1" placeholder="Pierwszy krok..." required>
+                    </div>
+                    <div class="step-input">
+                        <span class="step-number">2</span>
+                        <input type="text" name="case_step_2" placeholder="Drugi krok...">
+                    </div>
+                    <div class="step-input">
+                        <span class="step-number">3</span>
+                        <input type="text" name="case_step_3" placeholder="Trzeci krok...">
+                    </div>
+                    <div class="step-input">
+                        <span class="step-number">4</span>
+                        <input type="text" name="case_step_4" placeholder="Czwarty krok...">
+                    </div>
+                    <div class="step-input">
+                        <span class="step-number">5</span>
+                        <input type="text" name="case_step_5" placeholder="Piąty krok...">
+                    </div>
+                    <div class="step-input">
+                        <span class="step-number">6</span>
+                        <input type="text" name="case_step_6" placeholder="Szósty krok...">
+                    </div>
+                    <div class="step-input">
+                        <span class="step-number">7</span>
+                        <input type="text" name="case_step_7" placeholder="Siódmy krok...">
+                    </div>
+                    <div class="step-input">
+                        <span class="step-number">8</span>
+                        <input type="text" name="case_step_8" placeholder="Ósmy krok (opcjonalnie)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SEKCJA 8: REGULAMIN I ZGODY -->
+        <div class="section" data-section="8">
+            <div class="section-number">Sekcja 8 z 8</div>
+            <div class="section-header">
+                <div class="section-icon">📜</div>
+                <div class="section-header-text">
+                    <h2>Regulamin i zgody</h2>
+                    <p>Potwierdź poniższe oświadczenia</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <label class="consent-item">
+                    <input type="checkbox" name="consent_rules" required>
+                    <span class="consent-check"></span>
+                    <span class="consent-text">Potwierdzam, że zapoznałem/am się z <strong>regulaminem serwera</strong> i zobowiązuję się go przestrzegać. <span class="required">*</span></span>
+                </label>
+
+                <label class="consent-item">
+                    <input type="checkbox" name="consent_voluntary" required>
+                    <span class="consent-check"></span>
+                    <span class="consent-text">Rozumiem, że rola helpera jest <strong>dobrowolna i nieodpłatna</strong>. <span class="required">*</span></span>
+                </label>
+
+                <label class="consent-item">
+                    <input type="checkbox" name="consent_trial" required>
+                    <span class="consent-check"></span>
+                    <span class="consent-text">Zgadzam się na <strong>okres próbny (7-14 dni)</strong> po przyjęciu do zespołu. <span class="required">*</span></span>
+                </label>
+
+                <label class="consent-item">
+                    <input type="checkbox" name="consent_removal" required>
+                    <span class="consent-check"></span>
+                    <span class="consent-text">Rozumiem, że złamanie zasad może skutkować <strong>odebraniem roli bez ostrzeżenia</strong>. <span class="required">*</span></span>
+                </label>
+
+                <label class="consent-item">
+                    <input type="checkbox" name="consent_dm" required>
+                    <span class="consent-check"></span>
+                    <span class="consent-text">Wyrażam zgodę na <strong>kontakt przez DM</strong> w sprawie rekrutacji. <span class="required">*</span></span>
+                </label>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>
+                        <span class="question-number">✏️</span>
+                        Czy jest coś, co chciałbyś/chciałabyś dodać?
+                        <span class="hint">Dodatkowe informacje, pytania, uwagi – cokolwiek</span>
+                    </label>
+                    <textarea name="additional_notes" placeholder="Opcjonalnie..." class="small"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-container">
+            <button type="submit" class="submit-btn" id="submitBtn">
+                🚀 Wyślij aplikację
+            </button>
+            <p class="submit-note">
+                Dziękujemy za wypełnienie formularza! Odpowiedzi zostaną przeanalizowane przez nasz zespół.<br>
+                Odpowiedź otrzymasz w ciągu <strong>48 godzin</strong> na DM. Nie pisz do administracji z pytaniem o status.
+            </p>
+        </div>
+    </form>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-content">
+            <span class="success-icon">🎉</span>
+            <h2>Aplikacja wysłana!</h2>
+            <p>Dziękujemy za wypełnienie formularza rekrutacyjnego. Twoja aplikacja została przekazana do naszego zespołu.<br><br>Odpowiedź otrzymasz na DM w ciągu <strong>48 godzin</strong>.<br>Powodzenia! 🛡️</p>
+            <button class="modal-close-btn" onclick="closeModal()">Zamknij</button>
+        </div>
+    </div>
+
+    <script>
+        // Generate particles
+        function createParticles() {
+            const bg = document.getElementById('bgAnimation');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * 20) + 's';
+                particle.style.width = (Math.random() * 3 + 1) + 'px';
+                particle.style.height = particle.style.width;
+                bg.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Toggle conditional fields
+        function toggleConditional(id, show) {
+            const el = document.getElementById(id);
+            if (show) {
+                el.classList.add('visible');
+            } else {
+                el.classList.remove('visible');
+            }
+        }
+
+        // Character counter
+        function updateCharCount(textarea, counterId) {
+            const counter = document.getElementById(counterId);
+            const len = textarea.value.length;
+            const min = parseInt(textarea.getAttribute('minlength')) || 0;
+            counter.textContent = len + ' / ' + min + ' min. znaków';
+
+            if (len >= min) {
+                counter.className = 'char-counter';
+                counter.style.color = '#00e676';
+            } else if (len >= min * 0.6) {
+                counter.className = 'char-counter warning';
+            } else {
+                counter.className = 'char-counter danger';
+                counter.style.color = '#ff5252';
+            }
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const form = document.getElementById('applicationForm');
+            const allInputs = form.querySelectorAll('input[required], textarea[required], select[required]');
+            let filled = 0;
+
+            allInputs.forEach(input => {
+                if (input.type === 'radio') {
+                    const name = input.name;
+                    if (form.querySelector(`input[name="${name}"]:checked`)) {
+                        filled++;
+                    }
+                } else if (input.type === 'checkbox') {
+                    if (input.checked) filled++;
+                } else {
+                    if (input.value.trim() !== '') filled++;
+                }
+            });
+
+            // Remove duplicate radio group counts
+            const radioNames = new Set();
+            let radioTotal = 0;
+            let radioFilled = 0;
+            allInputs.forEach(input => {
+                if (input.type === 'radio' && !radioNames.has(input.name)) {
+                    radioNames.add(input.name);
+                    radioTotal++;
+                    if (form.querySelector(`input[name="${input.name}"]:checked`)) {
+                        radioFilled++;
+                    }
+                }
+            });
+
+            const nonRadioInputs = Array.from(allInputs).filter(i => i.type !== 'radio');
+            let nonRadioFilled = 0;
+            nonRadioInputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    if (input.checked) nonRadioFilled++;
+                } else {
+                    if (input.value.trim() !== '') nonRadioFilled++;
+                }
+            });
+
+            const totalFields = nonRadioInputs.length + radioTotal;
+            const filledFields = nonRadioFilled + radioFilled;
+            const percent = Math.round((filledFields / totalFields) * 100);
+
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressPercent').textContent = percent + '%';
+
+            // Update steps
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                const step = document.querySelector(`.progress-step[data-section="${index + 1}"]`);
+                if (step) {
+                    const sectionInputs = section.querySelectorAll('input[required], textarea[required]');
+                    let sectionFilled = true;
+                    sectionInputs.forEach(input => {
+                        if (input.type === 'radio') {
+                            if (!form.querySelector(`input[name="${input.name}"]:checked`)) {
+                                sectionFilled = false;
+                            }
+                        } else if (input.type === 'checkbox') {
+                            if (!input.checked) sectionFilled = false;
+                        } else {
+                            if (input.value.trim() === '') sectionFilled = false;
+                        }
+                    });
+
+                    if (sectionFilled && sectionInputs.length > 0) {
+                        step.classList.add('completed');
+                    } else {
+                        step.classList.remove('completed');
+                    }
+                }
+            });
+        }
+
+        // Listen for changes
+        document.getElementById('applicationForm').addEventListener('input', updateProgress);
+        document.getElementById('applicationForm').addEventListener('change', updateProgress);
+
+        // Scroll spy for section name
+        function updateCurrentSection() {
+            const sections = document.querySelectorAll('.section');
+            const names = ['Dane podstawowe', 'Doświadczenie', 'Motywacja', 'Scenariusze', 'Wiedza', 'Cechy osobiste', 'Test praktyczny', 'Regulamin i zgody'];
+
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < 200 && rect.bottom > 200) {
+                    document.getElementById('currentSection').textContent = `Sekcja ${index + 1}: ${names[index]}`;
+
+                    // Update active step
+                    document.querySelectorAll('.progress-step').forEach(s => s.classList.remove('active'));
+                    const activeStep = document.querySelector(`.progress-step[data-section="${index + 1}"]`);
+                    if (activeStep) activeStep.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateCurrentSection);
+
+        // Radio/Checkbox selection styling
+        document.querySelectorAll('.radio-option input, .checkbox-option input').forEach(input => {
+            input.addEventListener('change', function () {
+                if (this.type === 'radio') {
+                    const group = this.closest('.radio-group');
+                    group.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                    this.closest('.radio-option').classList.add('selected');
+                } else {
+                    this.closest('.checkbox-option').classList.toggle('selected', this.checked);
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('applicationForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Collect form data
+            const formData = new FormData(this);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            console.log('📋 Application Data:', data);
+
+            // Show success modal
+            document.getElementById('successModal').classList.add('active');
+
+            // Optional: Send to Discord webhook
+            // sendToDiscord(data);
+        });
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        // Optional: Discord webhook integration
+        /*
+        function sendToDiscord(data) {
+            const webhookURL = 'YOUR_DISCORD_WEBHOOK_URL';
+
+            const embed = {
+                embeds: [{
+                    title: '🛡️ Nowa aplikacja na Helpera',
+                    color: 0x6c5ce7,
+                    fields: [
+                        { name: 'Nick', value: data.discord_nick || 'N/A', inline: true },
+                        { name: 'Wiek', value: data.age || 'N/A', inline: true },
+                        { name: 'Czas dzienny', value: data.daily_time || 'N/A', inline: true },
+                        { name: 'Doświadczenie', value: data.experience || 'N/A', inline: true },
+                        { name: 'Dlaczego helper?', value: (data.why_helper || 'N/A').substring(0, 1024) },
+                        { name: 'Scenariusz 1', value: (data.scenario_1 || 'N/A').substring(0, 1024) },
+                        { name: 'Scenariusz 4 (znajomy)', value: (data.scenario_4 || 'N/A').substring(0, 1024) },
+                    ],
+                    timestamp: new Date().toISOString(),
+                    footer: { text: 'Zgłoś Scammera – Rekrutacja' }
+                }]
+            };
+
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(embed)
+            });
+        }
+        */
+
+        // Initial progress update
+        updateProgress();
+    </script>
+</body>
+</html>
